@@ -44,25 +44,25 @@ class _MyHomePageState extends State<MyHomePage> {
       centerTitle: true,
       leading: new IconButton(
         icon: new Icon(
-          Icons.account_circle,
-          color: Colors.grey,
-          size: 40.0,
+          Icons.settings,
+          color: Colors.black12,
+          size: 30.0,
         ),
         onPressed: () {
           // TODO
         },
       ),
       title: new Icon(
-        Icons.location_on,
+        Icons.dashboard,
         size: 30.0,
-        color: Colors.blue,
+        color: Colors.teal,
       ),
       actions: <Widget>[
         new IconButton(
           icon: new Icon(
-            Icons.message,
-            color: Colors.grey,
-            size: 40.0,
+            Icons.markunread,
+            color: Colors.black12,
+            size: 30.0,
           ),
           onPressed: () {
             // TODO
@@ -79,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Padding(
           padding: const EdgeInsets.all(16.0),
           child: new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              new RoundIconButton.small(
-                icon: Icons.refresh,
-                iconColor: Colors.orange,
-                onPressed: () {},
-              ),
+//              new RoundIconButton.small(
+//                icon: Icons.refresh,
+//                iconColor: Colors.orange,
+//                onPressed: () {},
+//              ),
               new RoundIconButton.large(
                 icon: Icons.clear,
                 iconColor: Colors.red,
@@ -93,25 +93,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   matchEngine.currentMatch.nope();
                 },
               ),
-              new RoundIconButton.small(
-                icon: Icons.star,
-                iconColor: Colors.blue,
-                onPressed: () {
-                  matchEngine.currentMatch.superLike();
-                },
-              ),
+//              new RoundIconButton.small(
+//                icon: Icons.star,
+//                iconColor: Colors.blue,
+//                onPressed: () {
+//                  matchEngine.currentMatch.superLike();
+//                },
+//              ),
               new RoundIconButton.large(
-                icon: Icons.favorite,
+                icon: Icons.check,
                 iconColor: Colors.green,
                 onPressed: () {
                   matchEngine.currentMatch.like();
                 },
               ),
-              new RoundIconButton.small(
-                icon: Icons.lock,
-                iconColor: Colors.purple,
-                onPressed: () {},
-              ),
+//              new RoundIconButton.small(
+//                icon: Icons.lock,
+//                iconColor: Colors.purple,
+//                onPressed: () {},
+//              ),
             ],
           ),
         ));
@@ -139,7 +139,7 @@ class RoundIconButton extends StatelessWidget {
     this.icon,
     this.iconColor,
     this.onPressed,
-  }) : size = 60.0;
+  }) : size = 100.0;
 
   RoundIconButton.small({
     this.icon,

@@ -464,11 +464,12 @@ class _ProfileCardState extends State<ProfileCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  new Text(widget.profile.name,
-                      style:
-                          new TextStyle(color: Colors.white, fontSize: 24.0)),
+                  new Text(widget.profile.name + ", " + widget.profile.distance,
+                      style: new TextStyle(color: Colors.white, fontSize: 20.0)),
                   new Text(widget.profile.bio,
-                      style: new TextStyle(color: Colors.white, fontSize: 18.0))
+                      style: new TextStyle(color: Colors.white, fontSize: 16.0)),
+//                  new Text(widget.profile.distance,
+//                      style: new TextStyle(color: Colors.white, fontSize: 12.0))
                 ],
               ),
             ),
