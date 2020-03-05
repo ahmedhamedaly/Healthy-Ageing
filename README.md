@@ -1,16 +1,50 @@
-# healthyageing
+# Healthy Ageing
 
-A new Flutter project.
+Connecting dog-lovers and dog-owners to enable the older generation.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+You will need to have installed:
+```
+Flutter
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Make sure flutter is downloaded and passed all the requirements.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+$ flutter doctor
+```
+
+### Installation
+Clone the repository:
+```
+$ git clone https://github.com/ahmedhamedaly/Healthy-Ageing.git
+$ cd Healthy-Ageing
+```
+
+Download all required packages using:
+```
+$ flutter packages get
+```
+
+Connect your device and run the project (while you're in the directory).
+```
+$ flutter run
+```
+
+### Deployment
+TODO
+
+### License
+TODO
+
+### Authors
+* **Ahmed Hamed Aly**
+* **Alannah Henry**
+* **Emily Harte**
+* **Jack Keenan**
+* **Maghnus Hartigan**
+* **Ruijie Xiong**
+* **Sanil Gupta**
