@@ -1,0 +1,4 @@
+#Thu Mar 05 13:34:34 GMT 2020
+base.0=/home/ahmed/Coding/IntelliJ/Healthy-Ageing/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
