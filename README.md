@@ -41,10 +41,10 @@ TODO
 TODO
 
 ### Authors
-* **Ahmed Hamed Aly**
-* **Alannah Henry**
-* **Emily Harte**
-* **Jack Keenan**
-* **Maghnus Hartigan**
-* **Ruijie Xiong**
-* **Sanil Gupta**
+* [Ahmed Hamed Aly](https://github.com/ahmedhamedaly)
+* [Alannah Henry](https://github.com/alannahhenry)
+* [Emily Harte](https://github.com/emilyharte)
+* [Jack Keenan](https://github.com/jakeenan2020)
+* [Maghnus Hartigan](https://github.com/Mushman2)
+* [Ruijie Xiong](https://github.com/Jane616)
+* [Sanil Gupta](https://github.com/guptasanil)
