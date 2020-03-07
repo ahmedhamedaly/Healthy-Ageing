@@ -473,10 +473,16 @@ class _ProfileCardState extends State<ProfileCard> {
                 ],
               ),
             ),
-            new Icon(
-              Icons.info,
-              color: Colors.white,
-            )
+            new IconButton(
+              icon: new Icon(
+                Icons.info,
+                color: Colors.white,
+                size: 40.0,
+              ),
+              onPressed: () {
+                // TODO
+              },
+            ),
           ],
         ),
       ),
