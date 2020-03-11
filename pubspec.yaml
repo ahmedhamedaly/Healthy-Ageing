@@ -85,3 +85,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+
+
+#Dependencies for messaging
+flutter_bloc:
+shared_preferences:
+google_sign_in:
+flutter_facebook_login:
