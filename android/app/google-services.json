@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "246402891643",
+    "firebase_url": "https://tender-project10.firebaseio.com",
+    "project_id": "tender-project10",
+    "storage_bucket": "tender-project10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246402891643:android:47366bbd3c34af63afc7de",
+        "android_client_info": {
+          "package_name": "com.project10.healthyageing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246402891643-r66vne67tddp9o2q4t0tj9jopre519k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMrksyUNZsaHgrjNelTWriZZb8imUlcfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246402891643-r66vne67tddp9o2q4t0tj9jopre519k1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
