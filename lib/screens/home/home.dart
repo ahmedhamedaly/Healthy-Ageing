@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/services/swipe/cards.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
+import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
 
 final MatchEngine matchEngine = new MatchEngine(
@@ -18,6 +19,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Match match = new Match();
 
+  final AuthService _auth = AuthService();
+
   Widget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -29,8 +32,10 @@ class _HomeState extends State<Home> {
           color: Colors.black12,
           size: 30.0,
         ),
-        onPressed: () {
+        onPressed: () async {
           // TODO
+          // For now its logout
+          await _auth.signOut();
         },
       ),
       title: new Icon(
