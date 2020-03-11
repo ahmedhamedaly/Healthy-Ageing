@@ -1,4 +1,4 @@
-package com.example.healthyageing
+package com.project10.healthyageing
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
