@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Chat</string>
+
+    // TODO: Add this info
+    <string name="facebook_app_id">${YOUR_FACEBOOK_APP_ID}</string>
+    <string name="fb_login_protocol_scheme">${YOUR_FACEBOOK_URL}</string>
+</resources>

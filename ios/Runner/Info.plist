@@ -41,5 +41,39 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+
+	<!-- Entries for messaging -->
+	<key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+         <key>CFBundleURLSchemes</key>
+         <array>
+            <string>${YOUR_FACEBOOK_URL}</string>
+         </array>
+      </dict>
+      <dict>
+         <key>CFBundleTypeRole</key>
+         <string>Editor</string>
+         <key>CFBundleURLSchemes</key>
+         <array>
+            <string>${YOUR_REVERSED_GOOGLE_WEB_CLIENT_ID}</string>
+         </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>${YOUR_FACEBOOK_APP_ID}</string>
+    <key>FacebookDisplayName</key>
+    <string>${YOUR_FACEBOOK_APP_NAME}</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-share-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
+    <!-- End of Entries for messaging -->
+
+
 </dict>
 </plist>
