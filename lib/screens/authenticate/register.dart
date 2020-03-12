@@ -17,14 +17,129 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
 
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey =  GlobalKey<ScaffoldState>();
 
+  String firstName = '';
+  String surname = '';
+  String phone = '';
   String email = '';
   String password = '';
+  String confirmPassword = '';
+  bool _termsAndConditions = false;
 
-  String error = '';
+  Widget _buildFirstNameTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'First Name',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            onChanged: (val) {
+              setState(() => firstName = val);
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.assignment_ind,
+                color: Colors.white,
+              ),
+              hintText: 'Enter your first name',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
-  bool _rememberMe = false;
+  Widget _buildSurnameTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Surname',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            onChanged: (val) {
+              setState(() => surname = val);
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.assignment,
+                color: Colors.white,
+              ),
+              hintText: 'Enter your surname',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPhoneNoTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Phone Number',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            onChanged: (val) {
+              setState(() => phone = val);
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.phone,
+                color: Colors.white,
+              ),
+              hintText: 'Enter your phone number',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _buildEmailTF() {
     return Column(
@@ -39,12 +154,15 @@ class _RegisterState extends State<Register> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            onChanged: (val) {
+              setState(() => email = val);
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -53,6 +171,44 @@ class _RegisterState extends State<Register> {
                 color: Colors.white,
               ),
               hintText: 'Enter your Email',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _confirmPasswordTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Confirm Password',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            obscureText: true,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            onChanged: (val) {
+              setState(() => password = val);
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: Colors.white,
+              ),
+              hintText: 'Confirm your Password',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -80,6 +236,9 @@ class _RegisterState extends State<Register> {
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            onChanged: (val) {
+              setState(() => password = val);
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -96,21 +255,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRememberMeCheckbox() {
+  Widget _buildTAndCCheckBox() {
     return Container(
       height: 20.0,
       child: Row(
@@ -118,18 +263,18 @@ class _RegisterState extends State<Register> {
           Theme(
             data: ThemeData(unselectedWidgetColor: Colors.white),
             child: Checkbox(
-              value: _rememberMe,
+              value: _termsAndConditions,
               checkColor: Colors.green,
               activeColor: Colors.white,
               onChanged: (value) {
                 setState(() {
-                  _rememberMe = value;
+                  _termsAndConditions = value;
                 });
               },
             ),
           ),
           Text(
-            'Remember me',
+            'I accept the terms and conditions',
             style: kLabelStyle,
           ),
         ],
@@ -137,20 +282,31 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildRegisterBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () async {
+          print('Email: ' + email);
+          print('Password: ' + password);
+          dynamic result = await _auth.login(email, password);
+          if (result == null) {
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Invalid credentials'),
+              ),
+            );
+          }
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
         child: Text(
-          'LOGIN',
+          'REGISTER',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -163,80 +319,14 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget _buildSignInWithText() {
-    return Column(
-      children: <Widget>[
-        Text(
-          '- OR -',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Text(
-          'Sign in with',
-          style: kLabelStyle,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
+  Widget _buildLoginBtn() {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 60.0,
-        width: 60.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-          image: DecorationImage(
-            image: logo,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSocialBtnRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _buildSocialBtn(
-                () => print('Login with Facebook'),
-            AssetImage(
-              'assets/logos/facebook.jpg',
-            ),
-          ),
-          _buildSocialBtn(
-                () => print('Login with Google'),
-            AssetImage(
-              'assets/logos/google.jpg',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
+      onTap: () => widget.toggleView(),
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Don\'t have an Account? ',
+              text: 'Already have an Account? ',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -244,7 +334,7 @@ class _RegisterState extends State<Register> {
               ),
             ),
             TextSpan(
-              text: 'Sign Up',
+              text: 'Sign In',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -260,6 +350,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -295,7 +386,7 @@ class _RegisterState extends State<Register> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Sign In',
+                        'Register',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -304,17 +395,22 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(height: 30.0),
+                      _buildFirstNameTF(),
+                      SizedBox(height: 30.0),
+                      _buildSurnameTF(),
+                      SizedBox(height: 30.0),
+                      _buildPhoneNoTF(),
+                      SizedBox(height: 30.0),
                       _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
+                      SizedBox(height: 30.0),
                       _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
+                      SizedBox(height: 30.0),
+                      _confirmPasswordTF(),
+                      SizedBox(height: 30.0),
+                      _buildTAndCCheckBox(),
+                      _buildRegisterBtn(),
                       _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
+
                     ],
                   ),
                 ),
