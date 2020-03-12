@@ -151,7 +151,7 @@ class _SignInState extends State<SignIn> {
 
   Widget _buildSignUpBtn() {
     return GestureDetector(
-      onTap: () => widget.toggleView,
+      onTap: () => widget.toggleView(),
       child: RichText(
         text: TextSpan(
           children: [
