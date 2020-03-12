@@ -17,6 +17,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
+  final _scaffoldKey =  GlobalKey<ScaffoldState>();
 
   String email = '';
   String password = '';
@@ -122,9 +123,11 @@ class _SignInState extends State<SignIn> {
           print('Password: ' + password);
           dynamic result = await _auth.login(email, password);
           if (result == null) {
-            setState(() {
-              //error = 'The email address is badly formatted.';
-            });
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Invalid credentials'),
+              ),
+            );
           }
         },
         padding: EdgeInsets.all(15.0),
@@ -148,7 +151,7 @@ class _SignInState extends State<SignIn> {
 
   Widget _buildSignUpBtn() {
     return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
+      onTap: () => widget.toggleView,
       child: RichText(
         text: TextSpan(
           children: [
@@ -177,6 +180,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -222,6 +226,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       SizedBox(height: 30.0),
                       _buildEmailTF(),
+
                       SizedBox(
                         height: 30.0,
                       ),
@@ -229,6 +234,7 @@ class _SignInState extends State<SignIn> {
                       _buildForgotPasswordBtn(),
                       _buildLoginBtn(),
                       _buildSignUpBtn(),
+
                     ],
                   ),
                 ),
