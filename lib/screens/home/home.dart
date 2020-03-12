@@ -67,11 +67,6 @@ class _HomeState extends State<Home> {
           child: new Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-//              new RoundIconButton.small(
-//                icon: Icons.refresh,
-//                iconColor: Colors.orange,
-//                onPressed: () {},
-//              ),
               new RoundIconButton.large(
                 icon: Icons.clear,
                 iconColor: Colors.red,
@@ -79,13 +74,6 @@ class _HomeState extends State<Home> {
                   matchEngine.currentMatch.nope();
                 },
               ),
-//              new RoundIconButton.small(
-//                icon: Icons.star,
-//                iconColor: Colors.blue,
-//                onPressed: () {
-//                  matchEngine.currentMatch.superLike();
-//                },
-//              ),
               new RoundIconButton.large(
                 icon: Icons.check,
                 iconColor: Colors.green,
@@ -93,11 +81,6 @@ class _HomeState extends State<Home> {
                   matchEngine.currentMatch.like();
                 },
               ),
-//              new RoundIconButton.small(
-//                icon: Icons.lock,
-//                iconColor: Colors.purple,
-//                onPressed: () {},
-//              ),
             ],
           ),
         ));
