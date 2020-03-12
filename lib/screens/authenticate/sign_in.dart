@@ -1,8 +1,6 @@
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:Healthy_Ageing/utilities/constants.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -15,204 +13,85 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  bool _rememberMe = false;
 
-  Widget _buildEmailTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Email',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.email,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Email',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
-  Widget _buildPasswordTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Password',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Password',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // text field state
+  String email = '';
+  String password = '';
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
-        child: Text(
-          'LOGIN',
-          style: TextStyle(
-            color: Color(0xFF527DAA),
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
+      backgroundColor: Colors.brown[100],
+      appBar: AppBar(
+        backgroundColor: Colors.brown[400],
+        elevation: 0.0,
+        title: Text('Sign in'),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.person),
+            label: Text('Register'),
+            onPressed: () {
+              widget.toggleView();
+            },
+          )
+        ],
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
             children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                validator: (val) => val.isEmpty ? 'Enter a valid email address' : null,
+                decoration: InputDecoration(
+                    labelText: 'Email'
                 ),
+                onChanged: (val) {
+                  setState(() => email = val);
+                },
               ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildLoginBtn(),
-                      _buildSignupBtn(),
-                    ],
-                  ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                validator: (val) => val.length < 8 ? 'Enter a password 8+ characters long' : null,
+                obscureText: true,
+                decoration: InputDecoration(
+                    labelText: 'Password'
                 ),
+                onChanged: (val) {
+                  setState(() => password = val);
+                },
+              ),
+              SizedBox(height: 30.0),
+              RaisedButton(
+                color: Colors.teal,
+                child: Text(
+                  'Sign in',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  print('Email: ' + email);
+                  print('Password: ' + password);
+                  if (_formKey.currentState.validate()) {
+                    dynamic result = await _auth.login(email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = 'The email address is badly formatted.';
+                      });
+                    }
+                  }
+                },
+              ),
+              SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
               )
             ],
           ),
@@ -220,89 +99,4 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-//  final AuthService _auth = AuthService();
-//  final _formKey = GlobalKey<FormState>();
-//
-//  // text field state
-//  String email = '';
-//  String password = '';
-//
-//  String error = '';
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      backgroundColor: Colors.brown[100],
-//      appBar: AppBar(
-//        backgroundColor: Colors.brown[400],
-//        elevation: 0.0,
-//        title: Text('Sign in'),
-//        actions: <Widget>[
-//          FlatButton.icon(
-//            icon: Icon(Icons.person),
-//            label: Text('Register'),
-//            onPressed: () {
-//              widget.toggleView();
-//            },
-//          )
-//        ],
-//      ),
-//      body: Container(
-//        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-//        child: Form(
-//          key: _formKey,
-//          child: Column(
-//            children: <Widget>[
-//              SizedBox(height: 20.0),
-//              TextFormField(
-//                validator: (val) => val.isEmpty ? 'Enter a valid email address' : null,
-//                decoration: InputDecoration(
-//                    labelText: 'Email'
-//                ),
-//                onChanged: (val) {
-//                  setState(() => email = val);
-//                },
-//              ),
-//              SizedBox(height: 20.0),
-//              TextFormField(
-//                validator: (val) => val.length < 8 ? 'Enter a password 8+ characters long' : null,
-//                obscureText: true,
-//                decoration: InputDecoration(
-//                    labelText: 'Password'
-//                ),
-//                onChanged: (val) {
-//                  setState(() => password = val);
-//                },
-//              ),
-//              SizedBox(height: 30.0),
-//              RaisedButton(
-//                color: Colors.teal,
-//                child: Text(
-//                  'Sign in',
-//                  style: TextStyle(color: Colors.white),
-//                ),
-//                onPressed: () async {
-//                  print('Email: ' + email);
-//                  print('Password: ' + password);
-//                  if (_formKey.currentState.validate()) {
-//                    dynamic result = await _auth.login(email, password);
-//                    if (result == null) {
-//                      setState(() {
-//                        error = 'The email address is badly formatted.';
-//                      });
-//                    }
-//                  }
-//                },
-//              ),
-//              SizedBox(height: 12.0),
-//              Text(
-//                error,
-//                style: TextStyle(color: Colors.red, fontSize: 14.0),
-//              )
-//            ],
-//          ),
-//        ),
-//      ),
-//    );
-//  }
 }
