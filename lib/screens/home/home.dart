@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.brown[400],
       elevation: 0.0,
       centerTitle: true,
       leading: new IconButton(
@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildBottomBar() {
     return BottomAppBar(
-        color: Colors.transparent,
+        color: Colors.brown[100],
         elevation: 0.0,
         child: new Padding(
           padding: const EdgeInsets.all(16.0),
@@ -106,6 +106,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.brown[100],
       appBar: _buildAppBar(),
       body: new CardStack(
         matchEngine: matchEngine,
