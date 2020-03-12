@@ -289,16 +289,17 @@ class _RegisterState extends State<Register> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-          print('Email: ' + email);
-          print('Password: ' + password);
-          dynamic result = await _auth.login(email, password);
-          if (result == null) {
-            _scaffoldKey.currentState.showSnackBar(
-              SnackBar(
-                content: Text('Invalid credentials'),
-              ),
-            );
-          }
+          // TODO
+//          print('Email: ' + email);
+//          print('Password: ' + password);
+//          dynamic result = await _auth.login(email, password);
+//          if (result == null) {
+//            _scaffoldKey.currentState.showSnackBar(
+//              SnackBar(
+//                content: Text('Invalid credentials'),
+//              ),
+//            );
+//          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
