@@ -3,6 +3,8 @@ import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/utilities/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Healthy_Ageing/screens/home/home.dart';
 
 class Register extends StatefulWidget {
 
@@ -26,6 +28,8 @@ class _RegisterState extends State<Register> {
   String password = '';
   String confirmPassword = '';
   bool _termsAndConditions = false;
+  String verificationId, smsCode;
+  bool codeSent = false;
 
   Widget _buildFirstNameTF() {
     return Column(
@@ -117,7 +121,7 @@ class _RegisterState extends State<Register> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.phone,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -255,6 +259,45 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  Widget _buildVerificationTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 30.0),
+        Text(
+          'Verification Code',
+          style: kLabelStyle,
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            keyboardType: TextInputType.phone,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            onChanged: (val) {
+              setState(() => smsCode = val);
+            },
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: Colors.white,
+              ),
+              hintText: 'Enter Verification Code',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildTAndCCheckBox() {
     return Container(
       height: 20.0,
@@ -288,18 +331,10 @@ class _RegisterState extends State<Register> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () async {
-          // TODO
-//          print('Email: ' + email);
-//          print('Password: ' + password);
-//          dynamic result = await _auth.login(email, password);
-//          if (result == null) {
-//            _scaffoldKey.currentState.showSnackBar(
-//              SnackBar(
-//                content: Text('Invalid credentials'),
-//              ),
-//            );
-//          }
+        onPressed: () {
+          codeSent ?
+          AuthService().signInWithOTP(smsCode, verificationId):
+          verifyPhone(phone);
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -307,7 +342,7 @@ class _RegisterState extends State<Register> {
         ),
         color: Colors.white,
         child: Text(
-          'REGISTER',
+          codeSent ? 'VERIFY':'REGISTER',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -401,12 +436,15 @@ class _RegisterState extends State<Register> {
                       _buildSurnameTF(),
                       SizedBox(height: 30.0),
                       _buildPhoneNoTF(),
-                      SizedBox(height: 30.0),
-                      _buildEmailTF(),
-                      SizedBox(height: 30.0),
-                      _buildPasswordTF(),
-                      SizedBox(height: 30.0),
-                      _confirmPasswordTF(),
+                      codeSent ?
+                          _buildVerificationTF() : Container(),
+
+                      //SizedBox(height: 30.0),
+                      //_buildEmailTF(),
+                      //SizedBox(height: 30.0),
+                      //_buildPasswordTF(),
+                      //SizedBox(height: 30.0),
+                      //_confirmPasswordTF(),
                       SizedBox(height: 30.0),
                       _buildTAndCCheckBox(),
                       _buildRegisterBtn(),
@@ -422,80 +460,50 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      backgroundColor: Colors.brown[100],
-//      appBar: AppBar(
-//        backgroundColor: Colors.brown[400],
-//        elevation: 0.0,
-//        title: Text('Register'),
-//        actions: <Widget>[
-//          FlatButton.icon(
-//            icon: Icon(Icons.person),
-//            label: Text('Login'),
-//            onPressed: () {
-//              widget.toggleView();
-//            },
-//          )
-//        ],
-//      ),
-//      body: Container(
-//        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-//        child: Form(
-//          key: _formKey,
-//          child: Column(
-//            children: <Widget>[
-//              SizedBox(height: 20.0),
-//              TextFormField(
-//                validator: (val) => val.isEmpty ? 'Enter a valid email address' : null,
-//                decoration: InputDecoration(
-//                  labelText: 'Email'
-//                ),
-//                onChanged: (val) {
-//                  setState(() => email = val);
-//                },
-//              ),
-//              SizedBox(height: 20.0),
-//              TextFormField(
-//                validator: (val) => val.length < 8 ? 'Enter a password 8+ characters long' : null,
-//                obscureText: true,
-//                decoration: InputDecoration(
-//                    labelText: 'Password'
-//                ),
-//                onChanged: (val) {
-//                  setState(() => password = val);
-//                },
-//              ),
-//              SizedBox(height: 30.0),
-//              RaisedButton(
-//                color: Colors.teal,
-//                child: Text(
-//                  'Register',
-//                  style: TextStyle(color: Colors.white),
-//                ),
-//                onPressed: () async {
-//                  print('Email: ' + email);
-//                  print('Password: ' + password);
-//                  if (_formKey.currentState.validate()) {
-//                    dynamic result = await _auth.register(email, password);
-//                    if (result == null) {
-//                      setState(() {
-//                        error = 'The email address is badly formatted';
-//                      });
-//                    }
-//                  }
-//                },
-//              ),
-//              SizedBox(height: 12.0),
-//              Text(
-//                error,
-//                style: TextStyle(color: Colors.red, fontSize: 14.0),
-//              )
-//            ],
-//          ),
-//        ),
-//      ),
-//    );
-//  }
+
+  Future<void> verifyPhone(phoneNo) async {
+    final PhoneVerificationCompleted verified = (AuthCredential authResult){
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Verification Success'),
+        ),
+      );
+
+      AuthService().signIn(authResult);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute<Null>(builder: (BuildContext context) {
+            return new Home();
+          })
+      );
+    };
+
+    final PhoneVerificationFailed verificationfailed = (AuthException authException){
+      print('${authException.message}');
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Verification Failed'),
+        ),
+      );
+    };
+
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]){
+      this.verificationId = verId;
+      setState(() {
+        this.codeSent = true;
+      });
+    };
+
+    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+      this.verificationId = verId;
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verified,
+        verificationFailed: verificationfailed,
+        codeSent: smsSent,
+        codeAutoRetrievalTimeout: autoTimeout);
+
+  }
 }
