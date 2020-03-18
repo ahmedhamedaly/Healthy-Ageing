@@ -1,1 +1,69 @@
 //List of matched users. Tapping one will open messaging to that user.
+import 'package:Healthy_Ageing/models/match.dart';
+import 'package:Healthy_Ageing/utilities/matches_store.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+
+class Matches extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new MatchesState();
+}
+
+class MatchesState extends State<Matches>{
+  List<Match> matches = getMatches();
+
+  @override
+  Widget build(BuildContext context){
+    Column _buildMatches(List<Match> matchList){
+      return Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: matchList.length,
+              itemBuilder: (BuildContext context, int index){
+                return ListTile(
+                  title: Text(matchList[index].name),
+                );
+              },
+            )
+          )
+        ],
+      );
+    }
+
+    const double _imageSize = 20.0;
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        backgroundColor: Colors.brown[100],
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
+          child:AppBar(
+            backgroundColor: Colors.brown[400],
+            elevation: 0.0,
+            title: Text("List of Matches"),
+           bottom: TabBar(
+             labelColor: Theme.of(context).indicatorColor,
+             tabs: [
+               Tab(icon: Icon(Icons.arrow_back, size: _imageSize)),
+               Tab(icon: Icon(Icons.favorite_border, size: _imageSize)),
+               Tab(icon: Icon(Icons.favorite, size: _imageSize)),
+               Tab(icon: Icon(Icons.settings, size: _imageSize)),
+             ]
+           ),
+          ),
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(5.0),
+          child: TabBarView(
+            children: [
+              _buildMatches(matches.toList()),
+              Center(child: Icon(Icons.settings)),
+            ],
+          ),
+        ),
+
+      )
+    );
+  }
+}
