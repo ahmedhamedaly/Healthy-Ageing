@@ -70,6 +70,7 @@ class _MessagingState extends State<Messaging> {
                       icon: Icon(Icons.send),
                       onPressed: () {
                         _send(context, widget._textEditingController.text);
+                        build(context);
                       }),
                   decoration: BoxDecoration(shape: BoxShape.circle),
                 )
@@ -132,7 +133,7 @@ class _MessagingState extends State<Messaging> {
 
   void _send(BuildContext context, String text) {
     if (text.isNotEmpty) {
-      //TODO: Send message
+      widget.messages.add(new Message(DateTime.now(), text, true));
       widget._textEditingController.text = "";
     }
   }
