@@ -1,4 +1,5 @@
 import 'package:Healthy_Ageing/models/message.dart';
+import 'package:Healthy_Ageing/models/user_object.dart';
 import 'package:Healthy_Ageing/screens/authenticate/sign_in.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,16 @@ import 'package:flutter/material.dart';
 //Screen for messaging with a matched user
 
 class Messaging extends StatefulWidget {
-  Messaging() {
-    messages.add(new Message(
+
+
+  Messaging(User_Object withUser) {
+    messages.add(new Message(User_Object("123", "Walter"),
         DateTime.now().subtract(new Duration(hours: 1)), "Hi", false));
-    messages.add(new Message(DateTime.now(), "Hi", true));
+    messages.add(new Message(User_Object("123", "Walter"),DateTime.now(), "Hi", true));
   }
 
   String name = 'Walter';
+  String chatroomId = "1";
   List<Message> messages = new List();
 
 
@@ -133,10 +137,25 @@ class _MessagingState extends State<Messaging> {
 
   void _send(BuildContext context, String text) {
     if (text.isNotEmpty) {
-      widget.messages.add(new Message(DateTime.now(), text, true));
+      widget.messages.add(new Message(User_Object("123","Walter"), DateTime.now(), text, true));
+      setState((){});
       widget._textEditingController.text = "";
     }
   }
+//
+//  final bool isLoading;
+//  final List<Message> messages;
+//  final bool error;
+
+//  _MessagingState._internal(this.isLoading, this.messages, {this.error = false});
+//
+//  factory _MessagingState.initial() => _MessagingState._internal(true, List<Message>(0));
+//
+//  factory _MessagingState.messages(List<Message> messages) => _MessagingState._internal(false, messages);
+//
+//  factory _MessagingState.error(_MessagingState state) => _MessagingState._internal(state.isLoading, state.messages, error: true);
+
+
 }
 
 class IMTextEditingController extends TextEditingController {}

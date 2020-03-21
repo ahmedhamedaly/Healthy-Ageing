@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
   #this dependency allows for the user to upload an image from their device 
   #or take a picture with their camera
-  image-picker:
+  image_picker:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -32,6 +32,8 @@ dependencies:
 
   # fluttery: ^0.0.8
   fluttery_dart2: ^0.0.9
+
+  rxdart:
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +46,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/launcher_icon.png"
+
 
 
 # For information on the generic Dart part of this file, see the
