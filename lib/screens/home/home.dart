@@ -10,6 +10,8 @@ final MatchEngine matchEngine = new MatchEngine(
       return Match(profile: profile);
     }).toList());
 
+bool infoPress = false;
+
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
 
@@ -35,6 +37,7 @@ class _HomeState extends State<Home> {
         ),
           // Within the `FirstRoute` widget
           onPressed: () {
+            infoPress = true;
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyProfile()),
@@ -92,6 +95,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+      
+    
+    if(infoPress) {
+      return Scaffold(
+        appBar: _buildAppBar()
+      );
+    }
+      
     return Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: _buildAppBar(),
