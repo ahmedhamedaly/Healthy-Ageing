@@ -19,7 +19,7 @@ class Wrapper extends StatelessWidget {
       return Authenticate();
     }
 
-    //return Home();
+    return Home();
     return Messaging(User_Object("123", "Walter"));
   }
 }

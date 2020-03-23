@@ -1,5 +1,5 @@
+import 'package:Healthy_Ageing/screens/photos.dart';
 import 'package:flutter/material.dart';
-import 'package:set_up/photos.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -54,7 +54,7 @@ class FormScreenState extends State<FormScreen> {
       decoration: InputDecoration(labelText: 'Age'),
       keyboardType: TextInputType.number,
       validator: (String value) {
-        
+
         int age = int.tryParse(value);
         if (age == null || age <=0) {
           return 'Age is required';
@@ -125,7 +125,7 @@ class FormScreenState extends State<FormScreen> {
                   _buildAge(),
                   _buildArea(),
                   _buildBio(),
-                 _buildAvailability(),
+                  _buildAvailability(),
                   SizedBox(height: 100),
                   RaisedButton(
                       child: Text(
@@ -139,12 +139,14 @@ class FormScreenState extends State<FormScreen> {
                         _formKey.currentState.save();
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context){
-                        return Photos();
-                        }));
+                              return Photos();
+                            }));
 
                       }),
                 ],
               ),
-            )));
+            ),
+        ),
+    );
   }
 }

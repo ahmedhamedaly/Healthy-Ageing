@@ -1,3 +1,4 @@
+import 'package:Healthy_Ageing/screens/myprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/services/swipe/cards.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
@@ -32,11 +33,14 @@ class _HomeState extends State<Home> {
           color: Colors.black12,
           size: 30.0,
         ),
-        onPressed: () async {
-          // TODO
-          // For now its logout
-          await _auth.signOut();
-        },
+          // Within the `FirstRoute` widget
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyProfile()),
+            );
+          }
+
       ),
       title: new Icon(
         Icons.dashboard,
