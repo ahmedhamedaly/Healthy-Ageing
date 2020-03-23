@@ -1,8 +1,11 @@
+import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; //have to run flutter get before
 //running this code so the image selection works
 import 'dart:async'; //need these too for the image selection to work
 import 'dart:io';
+
+import 'package:Healthy_Ageing/screens/home/home.dart';
 
 //uninitalised variable for uploading user's own profile picture
 File _image;
@@ -35,14 +38,15 @@ class _MyProfileState extends State<MyProfile> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.home),
-            onPressed: (){
-              Navigator.pop(context);
-            },
-          ),
-        ],
+        leading: IconButton(
+          icon: Icon(Icons.navigate_before, color: Colors.black,),
+          onPressed: (){
+            setState(() {
+              infoPress = false;
+            });
+            Navigator.pop(context);
+          },
+        ),
       ),
       body:
       Column(
