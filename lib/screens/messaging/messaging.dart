@@ -11,7 +11,7 @@ class Messaging extends StatefulWidget {
 
   Messaging(User_Object withUser) {
     messages.add(new Message(User_Object("123", "Walter"),
-        DateTime.now().subtract(new Duration(hours: 1)), "Hi", false));
+        DateTime.now().subtract(new Duration(hours: 1)), "Hello", false));
     messages.add(new Message(User_Object("123", "Walter"),DateTime.now(), "Hi", true));
   }
 
@@ -140,6 +140,10 @@ class _MessagingState extends State<Messaging> {
       widget.messages.add(new Message(User_Object("123","Walter"), DateTime.now(), text, true));
       setState((){});
       widget._textEditingController.text = "";
+      Future.delayed(const Duration(milliseconds: 5000), () {
+        widget.messages.add(new Message(User_Object("123","Walter"), DateTime.now(), "Sure, that sounds great", false));
+        setState((){});
+      });
     }
   }
 //
@@ -157,5 +161,7 @@ class _MessagingState extends State<Messaging> {
 
 
 }
+
+
 
 class IMTextEditingController extends TextEditingController {}
