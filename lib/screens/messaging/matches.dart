@@ -1,5 +1,6 @@
 //List of matched users. Tapping one will open messaging to that user.
 import 'package:Healthy_Ageing/models/match.dart';
+import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:Healthy_Ageing/utilities/matches_store.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -37,31 +38,38 @@ class MatchesState extends State<Matches>{
       child: Scaffold(
         backgroundColor: Colors.brown[100],
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
+          preferredSize: Size.fromHeight(100.0),
           child:AppBar(
             backgroundColor: Colors.brown[400],
             elevation: 0.0,
             title: Text("List of Matches"),
+            leading: IconButton(
+              icon: Icon(Icons.navigate_before, color: Colors.black,),
+              onPressed: (){
+                setState(() {
+                  infoPress = false;
+                });
+                Navigator.pop(context);
+              },
+            ),
            bottom: TabBar(
              labelColor: Theme.of(context).indicatorColor,
              tabs: [
-               Tab(icon: Icon(Icons.arrow_back, size: _imageSize)),
                Tab(icon: Icon(Icons.favorite_border, size: _imageSize)),
                Tab(icon: Icon(Icons.favorite, size: _imageSize)),
-               Tab(icon: Icon(Icons.settings, size: _imageSize)),
              ]
            ),
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(5.0),
-          child: TabBarView(
-            children: [
-              _buildMatches(matches.toList()),
-              Center(child: Icon(Icons.settings)),
-            ],
-          ),
-        ),
+//        body: Padding(
+//          padding: EdgeInsets.all(5.0),
+//          child: TabBarView(
+//            children: [
+//              _buildMatches(matches.toList()),
+//              Center(child: Icon(Icons.settings)),
+//            ],
+//          ),
+//        ),
 
       )
     );

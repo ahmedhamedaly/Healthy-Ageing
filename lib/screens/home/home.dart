@@ -1,3 +1,4 @@
+import 'package:Healthy_Ageing/screens/messaging/matches.dart';
 import 'package:Healthy_Ageing/screens/myprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/services/swipe/cards.dart';
@@ -61,7 +62,13 @@ class _HomeState extends State<Home> {
             size: 30.0,
           ),
           onPressed: () {
-            // TODO
+            setState(() {
+              infoPress = true;
+            });
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Matches()),
+            );
           },
         ),
       ],
