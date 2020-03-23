@@ -21,7 +21,6 @@ dependencies:
     sdk: flutter
   #this dependency allows for the user to upload an image from their device 
   #or take a picture with their camera
-  image_picker:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
