@@ -1,3 +1,4 @@
+import 'package:Healthy_Ageing/models/user_object.dart';
 import 'package:Healthy_Ageing/screens/authenticate/authenticate.dart';
 import 'package:Healthy_Ageing/screens/messaging/messaging.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class Wrapper extends StatelessWidget {
       return Authenticate();
     }
 
-    return Home();
-    return Messaging();
+    //return Home();
+    return Messaging(User_Object("123", "Walter"));
   }
 }

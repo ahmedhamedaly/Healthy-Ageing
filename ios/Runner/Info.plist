@@ -73,6 +73,13 @@
       <string>fbshareextension</string>
     </array>
     <!-- End of Entries for messaging -->
+	
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app requires permission to access photo library</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires permission to access camera</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app requires permission to access microphone</string>
 
 
 </dict>

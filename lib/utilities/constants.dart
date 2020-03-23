@@ -22,3 +22,11 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+
+class FirestorePaths {
+  static const String ROOT_PATH = "";
+  static const String USERS_COLLECTION = ROOT_PATH + "users";
+  static const String CHATROOMS_COLLECTION = ROOT_PATH + "chatrooms";
+  static const String USER_DOCUMENT = USERS_COLLECTION + "/{user_id}";
+}
