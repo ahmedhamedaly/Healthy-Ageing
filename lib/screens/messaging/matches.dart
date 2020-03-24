@@ -4,6 +4,8 @@ import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:Healthy_Ageing/utilities/matches_store.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:Healthy_Ageing/screens/messaging/messaging.dart';
+import 'package:Healthy_Ageing/models/user_object.dart';
 
 class Matches extends StatefulWidget {
   @override
@@ -24,6 +26,13 @@ class MatchesState extends State<Matches>{
               itemBuilder: (BuildContext context, int index){
                 return ListTile(
                   title: Text(matchList[index].name),
+                  onTap: (){
+                    Navigator.of(context).push(
+                        MaterialPageRoute<Null>(builder: (BuildContext context) {
+                          return new Messaging(new User_Object("123456", "test"));
+                        })
+                    );
+                  }
                 );
               },
             )
@@ -34,7 +43,7 @@ class MatchesState extends State<Matches>{
 
     const double _imageSize = 20.0;
     return DefaultTabController(
-      length: 4,
+      length: 2,
       child: Scaffold(
         backgroundColor: Colors.brown[100],
         appBar: PreferredSize(
@@ -61,15 +70,15 @@ class MatchesState extends State<Matches>{
            ),
           ),
         ),
-//        body: Padding(
-//          padding: EdgeInsets.all(5.0),
-//          child: TabBarView(
-//            children: [
-//              _buildMatches(matches.toList()),
-//              Center(child: Icon(Icons.settings)),
-//            ],
-//          ),
-//        ),
+       body: Padding(
+         padding: EdgeInsets.all(5.0),
+         child: TabBarView(
+            children: [
+              _buildMatches(matches.toList()),
+              Center(child: Icon(Icons.settings)),
+            ],
+          ),
+        ),
 
       )
     );

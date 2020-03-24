@@ -37,8 +37,8 @@ class _MessagingState extends State<Messaging> {
 
           actions: <Widget>[
             FlatButton.icon(
-              icon: Icon(Icons.arrow_back),
-              label: Text('Back'),
+              icon: Icon(Icons.map),
+              label: Text('Map'),
               onPressed: () {
                 //TODO: Go Back
               },
