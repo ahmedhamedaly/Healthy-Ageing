@@ -42,6 +42,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
 
 	<!-- Entries for messaging -->
 	<key>CFBundleURLTypes</key>

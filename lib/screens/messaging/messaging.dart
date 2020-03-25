@@ -1,6 +1,7 @@
 import 'package:Healthy_Ageing/models/message.dart';
 import 'package:Healthy_Ageing/models/user_object.dart';
 import 'package:Healthy_Ageing/screens/authenticate/sign_in.dart';
+import 'package:Healthy_Ageing/screens/map/map.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,11 @@ class _MessagingState extends State<Messaging> {
               icon: Icon(Icons.map),
               label: Text('Map'),
               onPressed: () {
-                //TODO: Go Back
+                Navigator.of(context).push(
+                    MaterialPageRoute<Null>(builder: (BuildContext context) {
+                      return new Map();
+                    })
+                );
               },
             )
           ],

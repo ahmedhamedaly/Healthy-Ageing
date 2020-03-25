@@ -9,6 +9,11 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Tender"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- google map API  -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBCy6cDmvtSrjuNL42daa58JuGr_bPyPjc"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
