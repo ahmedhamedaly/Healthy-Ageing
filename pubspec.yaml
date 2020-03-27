@@ -31,6 +31,7 @@ dependencies:
   provider: ^3.1.0
   camera: ^0.5.7+2
   image_picker: ^0.6.2+3
+  firebase_core: 0.4.4
 
   # fluttery: ^0.0.8
   fluttery_dart2: ^0.0.9
