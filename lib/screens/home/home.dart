@@ -39,13 +39,14 @@ class _HomeState extends State<Home> {
         ),
           // Within the `FirstRoute` widget
           onPressed: () {
-            setState(() {
-              infoPress = true;
-            });
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyProfile()),
-            );
+//            setState(() {
+//              infoPress = true;
+//            });
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => MyProfile()),
+//            );
+          _auth.signOut();
           }
 
       ),

@@ -1,6 +1,7 @@
+import 'package:Healthy_Ageing/screens/photos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jack_set/user_or_dog_owner.dart';
+import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
 
 class DogOwnerScreen extends StatefulWidget {
   @override
@@ -209,7 +210,7 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
                               _formKey1.currentState.save();
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                return;
+                                return Photos();
                               }));
                             }),
                       ],

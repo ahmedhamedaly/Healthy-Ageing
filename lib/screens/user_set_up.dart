@@ -1,6 +1,8 @@
+import 'package:Healthy_Ageing/screens/home/home.dart';
+import 'package:Healthy_Ageing/screens/photos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jack_set/user_or_dog_owner.dart';
+import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
 
 
 class UserScreen extends StatefulWidget {
@@ -193,7 +195,7 @@ class UserScreenState extends State<UserScreen> {
                               _formKey.currentState.save();
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context){
-                                    return;
+                                    return Photos();
                                   }));
 
                             }),

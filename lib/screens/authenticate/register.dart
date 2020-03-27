@@ -1,10 +1,11 @@
-import 'package:Healthy_Ageing/screens/authenticate/sign_in.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/utilities/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:Healthy_Ageing/screens/home/home.dart';
+
+import '../user_or_dog_owner.dart';
+import '../wrapper.dart';
 
 class Register extends StatefulWidget {
 
@@ -469,10 +470,14 @@ class _RegisterState extends State<Register> {
         ),
       );
 
+      setState(() {
+        registered = true;
+      });
+
       AuthService().signIn(authResult);
       Navigator.of(context).pushReplacement(
           MaterialPageRoute<Null>(builder: (BuildContext context) {
-            return new Home();
+            return new DogOwnerOrUserScreen();
           })
       );
     };

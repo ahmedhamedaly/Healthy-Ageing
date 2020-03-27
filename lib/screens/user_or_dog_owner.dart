@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jack_set/user_set_up.dart';
-import 'package:jack_set/dog_owner_set_up.dart';
+import 'package:Healthy_Ageing/screens/user_set_up.dart';
+import 'package:Healthy_Ageing/screens/dog_owner_set_up.dart';
 
 class DogOwnerOrUserScreen extends StatefulWidget {
   @override

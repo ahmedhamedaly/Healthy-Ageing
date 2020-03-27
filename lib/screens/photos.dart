@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -125,7 +126,12 @@ class PhotosState extends State<Photos> {
                 'Next',
                 style: TextStyle(color: Colors.blue),
               ),
-              onPressed: () {})
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context){
+                      return Home();
+                    }));
+              })
         ]),
       ),
     ));
