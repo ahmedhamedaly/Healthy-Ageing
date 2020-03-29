@@ -5,7 +5,6 @@ import 'package:Healthy_Ageing/utilities/matches_store.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/screens/messaging/messaging.dart';
-import 'package:Healthy_Ageing/models/user_object.dart';
 
 class Matches extends StatefulWidget {
   @override

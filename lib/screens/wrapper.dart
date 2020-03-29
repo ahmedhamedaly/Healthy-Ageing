@@ -1,4 +1,3 @@
-import 'package:Healthy_Ageing/models/user_object.dart';
 import 'package:Healthy_Ageing/screens/authenticate/authenticate.dart';
 import 'package:Healthy_Ageing/screens/messaging/messaging.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';

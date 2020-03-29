@@ -1,5 +1,3 @@
-import 'package:Healthy_Ageing/models/message.dart';
-import 'package:Healthy_Ageing/models/user_object.dart';
 import 'package:Healthy_Ageing/screens/authenticate/sign_in.dart';
 import 'package:Healthy_Ageing/screens/map/map.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
@@ -43,7 +41,6 @@ class _MessagingState extends State<Messaging> {
   String name = 'Walter';
   String peerId = "5";
   String groupChatId = "1";
-  List<Message> messages = new List();
 
   @override
   Widget build(BuildContext context) {
@@ -109,40 +106,40 @@ class _MessagingState extends State<Messaging> {
     );
   }
 
-  Widget _buildMessageItem(Message message) {
-    if (message.outgoing) {
-      return Container(
-        child: Text(
-          message.value,
-          style: TextStyle(color: Colors.white),
-          textAlign: TextAlign.end,
-        ),
-        decoration: BoxDecoration(
-            color: Colors.lightBlueAccent,
-            borderRadius: BorderRadius.all(Radius.circular(6.0))),
-        padding: EdgeInsets.all(8),
-        margin: EdgeInsets.symmetric(
-          vertical: 4,
-          horizontal: 0.0,
-        ),
-      );
-    } else {
-      return Container(
-        child: Text(
-          message.value,
-          style: TextStyle(color: Colors.white),
-        ),
-        decoration: BoxDecoration(
-            color: Colors.blueAccent,
-            borderRadius: BorderRadius.all(Radius.circular(6.0))),
-        padding: EdgeInsets.all(8),
-        margin: EdgeInsets.symmetric(
-          vertical: 4,
-          horizontal: 0.0,
-        ),
-      );
-    }
-  }
+//  Widget _buildMessageItem(Message message) {
+//    if (message.outgoing) {
+//      return Container(
+//        child: Text(
+//          message.value,
+//          style: TextStyle(color: Colors.white),
+//          textAlign: TextAlign.end,
+//        ),
+//        decoration: BoxDecoration(
+//            color: Colors.lightBlueAccent,
+//            borderRadius: BorderRadius.all(Radius.circular(6.0))),
+//        padding: EdgeInsets.all(8),
+//        margin: EdgeInsets.symmetric(
+//          vertical: 4,
+//          horizontal: 0.0,
+//        ),
+//      );
+//    } else {
+//      return Container(
+//        child: Text(
+//          message.value,
+//          style: TextStyle(color: Colors.white),
+//        ),
+//        decoration: BoxDecoration(
+//            color: Colors.blueAccent,
+//            borderRadius: BorderRadius.all(Radius.circular(6.0))),
+//        padding: EdgeInsets.all(8),
+//        margin: EdgeInsets.symmetric(
+//          vertical: 4,
+//          horizontal: 0.0,
+//        ),
+//      );
+//    }
+//  }
 
   void _send(BuildContext context, String text) {
     if (text.isNotEmpty) {
