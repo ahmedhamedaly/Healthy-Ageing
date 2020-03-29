@@ -6,6 +6,7 @@ import 'package:Healthy_Ageing/services/swipe/matches.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
 
+
 final MatchEngine matchEngine = new MatchEngine(
     matches: demoProfiles.map((Profile profile) {
       return Match(profile: profile);
@@ -13,7 +14,9 @@ final MatchEngine matchEngine = new MatchEngine(
 
 
 class Home extends StatefulWidget {
+
   Home({Key key}) : super(key: key);
+
 
   @override
   _HomeState createState() => _HomeState();
@@ -22,6 +25,8 @@ class Home extends StatefulWidget {
 bool infoPress = false;
 
 class _HomeState extends State<Home> {
+
+
   Match match = new Match();
 
   final AuthService _auth = AuthService();
@@ -39,13 +44,12 @@ class _HomeState extends State<Home> {
         ),
           // Within the `FirstRoute` widget
           onPressed: () {
-//            setState(() {
-//              infoPress = true;
-//            });
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (context) => MyProfile()),
-//            );
+          setState(() {
+              infoPress = true;
+             });
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MyProfile()),
+              );
           _auth.signOut();
           }
 
@@ -106,14 +110,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-      
-    
+
+
     if(infoPress) {
       return Scaffold(
-        appBar: _buildAppBar()
+          appBar: _buildAppBar()
       );
     }
-      
+
     return Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: _buildAppBar(),

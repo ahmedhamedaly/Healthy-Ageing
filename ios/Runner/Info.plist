@@ -18,10 +18,44 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>${YOUR_FACEBOOK_URL}</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FacebookAppID</key>
+	<string>${YOUR_FACEBOOK_APP_ID}</string>
+	<key>FacebookDisplayName</key>
+	<string>${YOUR_FACEBOOK_APP_NAME}</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires permission to access camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires permission to access microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires permission to access photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,48 +75,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-    <key>io.flutter.embedded_views_preview</key>
-    <true/>
-
-	<!-- Entries for messaging -->
-	<key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-         <key>CFBundleURLSchemes</key>
-         <array>
-            <string>${YOUR_FACEBOOK_URL}</string>
-         </array>
-      </dict>
-      <dict>
-         <key>CFBundleTypeRole</key>
-         <string>Editor</string>
-         <key>CFBundleURLSchemes</key>
-         <array>
-            <string>${YOUR_REVERSED_GOOGLE_WEB_CLIENT_ID}</string>
-         </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>${YOUR_FACEBOOK_APP_ID}</string>
-    <key>FacebookDisplayName</key>
-    <string>${YOUR_FACEBOOK_APP_NAME}</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>fbapi</string>
-      <string>fb-messenger-share-api</string>
-      <string>fbauth2</string>
-      <string>fbshareextension</string>
-    </array>
-    <!-- End of Entries for messaging -->
-	
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires permission to access photo library</string>
-    <key>NSCameraUsageDescription</key>
-    <string>This app requires permission to access camera</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>This app requires permission to access microphone</string>
-
-
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 </dict>
 </plist>

@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart'; //have to run flutter get befor
 import 'dart:async'; //need these too for the image selection to work
 import 'dart:io';
 
-import 'package:Healthy_Ageing/screens/home/home.dart';
+
 
 //uninitalised variable for uploading user's own profile picture
 File _image;
