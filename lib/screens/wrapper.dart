@@ -22,8 +22,9 @@ class Wrapper extends StatelessWidget {
     if (registered) return DogOwnerOrUserScreen();
 
     //return FormScreen();
+    return new Messaging("Walter", "123", "5");
     return DogOwnerOrUserScreen();
     return Home();
-    return Messaging(User_Object("123", "Walter"));
+
   }
 }

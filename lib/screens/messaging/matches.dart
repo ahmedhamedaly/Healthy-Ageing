@@ -29,7 +29,8 @@ class MatchesState extends State<Matches>{
                   onTap: (){
                     Navigator.of(context).push(
                         MaterialPageRoute<Null>(builder: (BuildContext context) {
-                          return new Messaging(new User_Object("123456", "test"));
+                          //TODO: have each of these stored, and input them
+                          return new Messaging("Walter", "123", "5");
                         })
                     );
                   }
