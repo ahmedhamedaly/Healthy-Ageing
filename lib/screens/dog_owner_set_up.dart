@@ -2,6 +2,7 @@ import 'package:Healthy_Ageing/screens/photos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
+import 'package:geolocator/geolocator.dart';
 
 class DogOwnerScreen extends StatefulWidget {
   @override
@@ -18,6 +19,9 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
   String _area;
   String _bio;
   String _availablility;
+  bool _location = false;
+  String _isTick = "";
+  Position _currentPosition;
 
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -121,6 +125,50 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
       },
     );
   }
+   Widget _buildLocationCheckBox() {
+    return Container(
+      height: 20.0,
+      child: Row(
+        children: <Widget>[
+          Theme(
+            data: ThemeData(unselectedWidgetColor: Colors.white),
+            child: Checkbox(
+              value: _location,
+              checkColor: Colors.green,
+              activeColor: Colors.white,
+              onChanged: (value) {
+                if(_location==false) {
+                  _getCurrentLocation();
+                }
+                setState(() {
+                  _location = value;
+
+                });
+              },
+            ),
+          ),
+          Text(
+            'I accept that Tender will use my Location',
+          ),
+
+        ],
+      ),
+    );
+  }
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,6 +246,8 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
                         _buildBio(),
                         SizedBox(height: 30.0),
                         _buildAvailability(),
+                        SizedBox(height: 30.0),
+                        _buildLocationCheckBox(),
                         RaisedButton(
                             child: Text(
                               'Next',
@@ -208,6 +258,7 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
                                 return;
                               }
                               _formKey1.currentState.save();
+                              _getCurrentLocation();
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return Photos();
