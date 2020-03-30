@@ -22,9 +22,9 @@
 	<array>
 		<dict>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>${YOUR_FACEBOOK_URL}</string>
-			</array>
+			<array/>
+			<key>CFBundleURLName</key>
+			<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -34,6 +34,7 @@
 				<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
 			</array>
 		</dict>
+		<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
