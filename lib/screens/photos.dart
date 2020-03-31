@@ -74,8 +74,8 @@ class PhotosState extends State<Photos> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [CustomAppColours.testColor,
-                CustomAppColours.testColor2,
+              colors: [CustomAppColours.scheme1Color1,
+                CustomAppColours.scheme1Color2,
               ],
               //stops: [0.1, 0.4, 0.7, 0.9],
             ),

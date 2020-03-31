@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:Healthy_Ageing/utilities/constants.dart';
 
 class DogOwnerScreen extends StatefulWidget {
   @override
@@ -237,8 +238,8 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [const Color(0xFF4751a6),
-                      const Color(0xFF9e4bff),
+                    colors: [CustomAppColours.scheme1Color1,
+                      CustomAppColours.scheme1Color2,
                     ],
                     //stops: [0.1, 0.4, 0.7, 0.9],
                   ),

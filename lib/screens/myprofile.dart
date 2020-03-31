@@ -152,8 +152,6 @@ class _PreviewProfileState extends State<PreviewProfile> {
   Widget build(BuildContext context){
 
 
-    final Color color1 = Color(0xFF4751a6);
-    final Color color2 = Color(0xFF9e4bff);
 
     return Scaffold(
       body: Stack (
@@ -166,7 +164,7 @@ class _PreviewProfileState extends State<PreviewProfile> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
               gradient: LinearGradient(
-                colors: [color1, color2],
+                colors: [CustomAppColours.scheme1Color1, CustomAppColours.scheme1Color2],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight
               )

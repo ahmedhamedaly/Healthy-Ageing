@@ -32,8 +32,8 @@ class DogOwnerOrUserScreenState extends State<DogOwnerOrUserScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [const Color(0xFF4751a6),
-                      const Color(0xFF9e4bff),
+                    colors: [CustomAppColours.scheme1Color1,
+                      CustomAppColours.scheme1Color2,
                     ],
                     //stops: [0.1, 0.4, 0.7, 0.9],
                   ),
