@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_set_up.dart';
 import 'package:Healthy_Ageing/screens/dog_owner_set_up.dart';
+import 'package:Healthy_Ageing/utilities/constants.dart';
 
 class DogOwnerOrUserScreen extends StatefulWidget {
   @override
@@ -31,13 +32,10 @@ class DogOwnerOrUserScreenState extends State<DogOwnerOrUserScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
+                    colors: [const Color(0xFF4751a6),
+                      const Color(0xFF9e4bff),
                     ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
+                    //stops: [0.1, 0.4, 0.7, 0.9],
                   ),
                 ),
               ),
@@ -53,7 +51,7 @@ class DogOwnerOrUserScreenState extends State<DogOwnerOrUserScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
-                        'I am',
+                        'I am ',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -64,10 +62,11 @@ class DogOwnerOrUserScreenState extends State<DogOwnerOrUserScreen> {
                       SizedBox(height: 100.0),
                       SizedBox(height: 80.0, width: 500,
                       child: new RaisedButton(
-                          color: Colors.tealAccent,
+                          color: Color(0xff289eff),
                           child: Text(
                             'A Dog Lover',
-                            style: TextStyle(color: Colors.blue),
+                            style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
+
                           ),
                           onPressed: () {
 
@@ -83,10 +82,10 @@ class DogOwnerOrUserScreenState extends State<DogOwnerOrUserScreen> {
                       SizedBox(height: 80.0, width: 500,
 
                         child: new RaisedButton(
-                            color: Colors.tealAccent,
+                            color: Color(0xff0080ff),
                             child: Text(
                               'A Dog Owner',
-                              style: TextStyle(color: Colors.blue),
+                              style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
 

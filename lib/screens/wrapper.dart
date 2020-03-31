@@ -6,7 +6,7 @@ import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:Healthy_Ageing/models/user.dart';
 
-bool registered = false;
+bool registered = true;
 
 class Wrapper extends StatelessWidget {
   @override

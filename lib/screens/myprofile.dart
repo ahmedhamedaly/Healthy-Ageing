@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart'; //have to run flutter get befor
 //running this code so the image selection works
 import 'dart:async'; //need these too for the image selection to work
 import 'dart:io';
+import 'package:Healthy_Ageing/utilities/constants.dart';
 
 
 
@@ -151,12 +152,13 @@ class _PreviewProfileState extends State<PreviewProfile> {
   Widget build(BuildContext context){
 
 
-    final Color color1 = Color(0xffFC5CF0);
-    final Color color2 = Color(0xffFE8852);
+    final Color color1 = Color(0xFF4751a6);
+    final Color color2 = Color(0xFF9e4bff);
 
     return Scaffold(
       body: Stack (
         children: <Widget>[
+
 
           //some UI bits to make it look nice
           Container(

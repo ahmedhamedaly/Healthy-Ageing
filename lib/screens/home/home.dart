@@ -5,6 +5,7 @@ import 'package:Healthy_Ageing/services/swipe/cards.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
+import 'package:Healthy_Ageing/utilities/constants.dart';
 
 
 final MatchEngine matchEngine = new MatchEngine(
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
 
   Widget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.brown[400],
+      backgroundColor: Color(0xff289eff),
       elevation: 0.0,
       centerTitle: true,
       leading: new IconButton(
@@ -82,8 +83,9 @@ class _HomeState extends State<Home> {
 
   Widget _buildBottomBar() {
     return BottomAppBar(
-        color: Colors.brown[100],
+        color: Colors.white,
         elevation: 0.0,
+
         child: new Padding(
           padding: const EdgeInsets.all(16.0),
           child: new Row(
@@ -119,12 +121,14 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: new CardStack(
         matchEngine: matchEngine,
       ),
       bottomNavigationBar: _buildBottomBar(),
+
     );
   }
 }
