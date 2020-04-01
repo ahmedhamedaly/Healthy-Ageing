@@ -1,73 +1,87 @@
-import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; //have to run flutter get before
 //running this code so the image selection works
 import 'dart:async'; //need these too for the image selection to work
 import 'dart:io';
-import 'package:Healthy_Ageing/utilities/constants.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-
+/*
+  This class is for the Pet Owner profile
+ */
 
 //uninitalised variable for uploading user's own profile picture
 File _image;
 
-
 //variables for user's profile info
-String name = "Rita";
-String secondName = "Maloney";
-String bio = "Pensioner and Pet Lover";
-String age = "82";
-String area = "Malahide";
+String ownerName = "";
+String ownerSecondName = "";
+String dogName = "";
+String bio = "";
+String area = "";
 
-class MyProfile extends StatefulWidget {
-  MyProfile({Key key, this.title}) : super(key: key);
+final profileRef = FirebaseDatabase.instance.reference().child('Another userID');
+final locationRef = FirebaseDatabase.instance.reference().child('Another userID').child('Location');
+
+class OwnerProfile extends StatefulWidget {
+  OwnerProfile({Key key, this.title}) : super(key: key);
 
   final String title;
 
+  Future initProfile() async {
+    await profileRef.once().then((DataSnapshot snapshot) {
+      ownerName = snapshot.value["Owner First Name"].toString();
+      ownerSecondName = snapshot.value["Owner Second Name"].toString();
+      dogName = snapshot.value["Dog Name"].toString();
+      bio = snapshot.value["Bio"].toString();
+      locationRef.once().then((DataSnapshot snap) {
+        area = snap.value['Text'].toString();
+      });
+    });
+  }
+
   @override
-  _MyProfileState createState() => _MyProfileState();
+  _OwnerProfileState createState() => _OwnerProfileState();
 }
 
-//class for landing screen of user setting page
-class _MyProfileState extends State<MyProfile> {
+class _OwnerProfileState extends State<OwnerProfile> {
+
+  bool pressed = false;
+
+  //colours for profile page
+  final Color color1 = Color(0xffFC5CF0);
+  final Color color2 = Color(0xffFE8852);
 
   Widget build(BuildContext context) {
-    //colours for profile page
-    final Color color1 = Color(0xffFC5CF0);
-    final Color color2 = Color(0xffFE8852);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
           icon: Icon(Icons.navigate_before, color: Colors.black,),
           onPressed: (){
-            setState(() {
-              infoPress = false;
-            });
-            Navigator.pop(context);
+            Navigator.pop(context, pressed);
           },
         ),
       ),
-      body:
-      Column(
+      body: Column(
         children: <Widget>[
           //container for user profile picture
           Container(
-            padding: EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: 40, left: 10),
+            //padding: EdgeInsets.only(top: 100),
             width: 300,
             height: 300,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: _image == null? Image(image: AssetImage('assets/Woman.jpg'), fit: BoxFit.cover) : Image.file(_image),
+              child: _image == null? Image(image: AssetImage('assets/man-dog.jpg'), fit: BoxFit.cover) : Image.file(_image),
             ),
           ),
 
           //container for user name and age
           Container(
-            margin: EdgeInsets.only(top: 50)
+              margin: EdgeInsets.only(top: 40, left: 20)
           ),
-          Text(name + " - " + age, style: TextStyle(
+          Text(dogName + " + " + ownerName, style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30.0,
             color: Colors.deepPurpleAccent,
@@ -81,7 +95,7 @@ class _MyProfileState extends State<MyProfile> {
 
               //container for user bio
               Container(
-                margin: EdgeInsets.only(top: 60)
+                  margin: EdgeInsets.only(top: 60)
               ),
               Text(bio, style: TextStyle (
                   fontSize: 24.0,
@@ -129,13 +143,12 @@ class _MyProfileState extends State<MyProfile> {
               ],
             ),
           ),
+
         ],
       ),
-
     );
   }
 }
-
 
 //class for previewing the user's profile screen
 class PreviewProfile extends StatefulWidget {
@@ -152,22 +165,23 @@ class _PreviewProfileState extends State<PreviewProfile> {
   Widget build(BuildContext context){
 
 
+    final Color color1 = Color(0xffFC5CF0);
+    final Color color2 = Color(0xffFE8852);
 
     return Scaffold(
       body: Stack (
         children: <Widget>[
 
-
           //some UI bits to make it look nice
           Container(
             height: 470,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
-              gradient: LinearGradient(
-                colors: [CustomAppColours.scheme1Color1, CustomAppColours.scheme1Color2],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight
-              )
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
+                gradient: LinearGradient(
+                    colors: [color1, color2],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight
+                )
             ),
           ),
           AppBar(
@@ -178,115 +192,117 @@ class _PreviewProfileState extends State<PreviewProfile> {
           //container for previewing how the user's profile looks to other
           //users of the app
           Container(
-            margin: const EdgeInsets.only(top: 80),
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 30.0),
-                Expanded(
-                  child: Stack (
-                    children: <Widget>[
-                      Container(
-                        height: 400,
-                        width: 400,
-                        margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0, bottom: 0),
+              margin: const EdgeInsets.only(top: 80),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 30.0),
+                  Expanded(
+                    child: Stack (
+                      children: <Widget>[
+                        Container(
+                          height: 400,
+                          width: 400,
+                          margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0, bottom: 0),
 
-                        //user's profile picture
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          //user's profile picture
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
 
-                          //if statement to enable changing the user profile picture
-                          //if the image variable is still uninitialised, the default picture
-                          //woman.jpg is used
-                          //else the user selected picture is rendered
-                          child: _image == null? Image(image: AssetImage('assets/Woman.jpg'), fit: BoxFit.cover) : Image.file(_image),
+                            //if statement to enable changing the user profile picture
+                            //if the image variable is still uninitialised, the default picture
+                            //woman.jpg is used
+                            //else the user selected picture is rendered
+                            child: _image == null? Image(image: AssetImage('assets/man-dog.jpg'), fit: BoxFit.cover) : Image.file(_image),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.topCenter,
+                        Container(
+                          alignment: Alignment.topCenter,
 
-                        //other UI bits
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-
-                          //shows the distance of the user, in this case 0 km
-                          child: Text("0 km away", style: TextStyle(fontSize: 18.0)),
-                        ),
-                      ),
-
-                      //UI bits to show the name and age of the user
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: 170),
-                        child: Container(
-                              child: Text(name + " " + secondName + " - " + age,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 35.0
-                                )
-                              ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-
-                          //information icon to indicate bio of user
-                          Container(
-                            margin: EdgeInsets.only(top: 520),
-                            child: Icon(Icons.info_outline, color: Colors.grey, size: 30),
-                          ),
-
-                          //container for bio of user
-                          Container(
-                            margin: EdgeInsets.only(top: 520, left: 10),
-                            child: Text(bio,
-                            style: TextStyle(
-                              color: Colors.lightBlueAccent,
-                              fontSize: 24,
-                            ),),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-
-                          //location icon to indicate the area the user is in
-                          Container(
-                            margin: EdgeInsets.only(top: 570, right: 5),
-                            child: Icon(Icons.location_on, color: Colors.grey, size: 40),
-                          ),
-
-                         //container for location of user
-                         Container(
-                           margin: EdgeInsets.only(top: 570, left: 7),
-                           child: Text(area,
-                               style: TextStyle(
-                                   fontSize: 25,
-                                   color: Colors.grey.shade600
-                               ),
+                          //other UI bits
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.yellow,
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
-                           )
-                        ],
-                      ),
-                    ],
+
+                            //shows the distance of the user, in this case 0 km
+                            child: Text("0 km away", style: TextStyle(fontSize: 18.0)),
+                          ),
+                        ),
+
+                        //UI bits to show the name and age of the user
+                        Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 170),
+                          child: Container(
+                            child: Text(ownerName + " " + ownerSecondName + " \nand " + dogName,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 35.0
+                                )
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+
+                            //information icon to indicate bio of user
+                            Container(
+                              margin: EdgeInsets.only(top: 540, right: 10),
+                              child: Icon(Icons.info_outline, color: Colors.grey, size: 30),
+                            ),
+
+                            //container for bio of user
+                            Container(
+                              margin: EdgeInsets.only(top: 540, left: 10),
+                              child: Text(bio,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.lightBlueAccent,
+                                  fontSize: 24,
+                                ),),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+
+                            //location icon to indicate the area the user is in
+                            Container(
+                              margin: EdgeInsets.only(top: 590, right: 20),
+                              child: Icon(Icons.location_on, color: Colors.grey, size: 40),
+                            ),
+
+                            //container for location of user
+                            Container(
+                              margin: EdgeInsets.only(top: 590),
+                              child: Text(area,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.grey.shade600
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )
+                ],
+              )
           ),
         ],
       ),
     );
   }
 }
-
 
 //class for the screen to edit the user's information
 class EditProfile extends StatefulWidget {
@@ -368,10 +384,10 @@ class _EditProfileState extends State<EditProfile> {
   Widget build (BuildContext context) {
     return Scaffold(
       appBar:
-          AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
+      AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Stack(
         children: <Widget>[
 
@@ -379,7 +395,7 @@ class _EditProfileState extends State<EditProfile> {
           Container(
             margin: EdgeInsets.only(top: 20, left: 40),
             child: Text (
-              "First Name",
+              "Human's First Name",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.blue,
@@ -390,26 +406,33 @@ class _EditProfileState extends State<EditProfile> {
           //field to allow user to change their first name
           //on their profile
           Container(
-            margin: EdgeInsets.only(top: 30, left: 40),
-            child: TextField(
-                  style: TextStyle(
+              margin: EdgeInsets.only(top: 30, left: 40),
+              child: TextField(
+                style: TextStyle(
                     fontSize: 40
-                  ),
-                  decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: name
-                  ),
-                  onSubmitted: (String value) async {
-                    name = value;
-                  },
-            )
+                ),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: ownerName
+                ),
+                onSubmitted: (String value) async {
+                  profileRef.update({
+                    'Owner FirstName' : value
+                  });
+                  setState(() {
+                    profileRef.once().then((DataSnapshot snapshot) {
+                      ownerName = snapshot.value["Owner First Name"];
+                    });
+                  });
+                },
+              )
           ),
 
           //prompt for second name field
           Container(
             margin: EdgeInsets.only(top: 110, left: 40),
             child: Text(
-              "Second Name",
+              "Human's Second Name",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.blue,
@@ -426,57 +449,72 @@ class _EditProfileState extends State<EditProfile> {
                   fontSize: 40
               ),
               decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: secondName
+                  border: InputBorder.none,
+                  hintText: ownerSecondName
               ),
               onSubmitted: (String value) async {
-                secondName = value;
+                profileRef.update({
+                  'Owner Second Name' : value
+                });
+                setState(() {
+                  profileRef.once().then((DataSnapshot snapshot) {
+                    ownerSecondName = snapshot.value["Owner Second Name"];
+                  });
+                });
               },
             ),
+          ),
+
+          //prompt for user to change name of dog
+          Container(
+            margin: EdgeInsets.only(top: 200, left: 40),
+            child: Text(
+              "Dog's Name",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.blue,
+              ),
+            ),
+          ),
+
+          //field to allow user to change the name of
+          //dog
+          Container(
+              margin: EdgeInsets.only(top: 210, left: 40),
+              child: TextField(
+                style: TextStyle(
+                    fontSize: 40
+                ),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: dogName
+                ),
+                onSubmitted: (String value) {
+                  profileRef.update({
+                    'Dog Name' : value
+                  });
+                  setState(() {
+                    profileRef.once().then((DataSnapshot snapshot) {
+                      dogName = snapshot.value["Dog Name"];
+                    });
+                  });
+                },
+              )
           ),
 
           //prompt for the bio field
           Container(
-            margin: EdgeInsets.only(top: 200, left: 40),
-            child: Text(
-              "Bio",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.blue,
-              ),
-            )
+              margin: EdgeInsets.only(top: 290, left: 40),
+              child: Text(
+                "Bio",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blue,
+                ),
+              )
           ),
 
           //field to allow user to change their bio
-          Container(
-            margin: EdgeInsets.only(top: 210, left: 40),
-            child: TextField(
-              style: TextStyle(
-                fontSize: 40
-              ),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: bio
-              ),
-              onSubmitted: (String value) {
-                bio = value;
-              },
-            )
-          ),
-
-          //prompt for age field
-          Container(
-            margin: EdgeInsets.only(top: 290, left: 40),
-            child: Text(
-              "Age",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.blue,
-              ),
-            ),
-          ),
-
-          //field to allow user to change their age
           Container(
               margin: EdgeInsets.only(top: 300, left: 40),
               child: TextField(
@@ -485,10 +523,17 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: age
+                    hintText: bio
                 ),
                 onSubmitted: (String value) {
-                  age = value;
+                  profileRef.update({
+                    'Bio' : value
+                  });
+                  setState(() {
+                    profileRef.once().then((DataSnapshot snapshot) {
+                      bio = snapshot.value["Bio"];
+                    });
+                  });
                 },
               )
           ),
@@ -517,7 +562,14 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: area
                 ),
                 onSubmitted: (String value) {
-                  area = value;
+                  locationRef.update({
+                    'Text' : value
+                  });
+                  setState(() {
+                    locationRef.once().then((DataSnapshot snapshot) {
+                      area = snapshot.value["Text"];
+                    });
+                  });
                 },
               )
           ),
@@ -528,8 +580,8 @@ class _EditProfileState extends State<EditProfile> {
             child: Text(
               'Change Profile Picture',
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.blue
+                  fontSize: 20,
+                  color: Colors.blue
               ),
             ),
           ),
@@ -539,15 +591,15 @@ class _EditProfileState extends State<EditProfile> {
             margin: EdgeInsets.only(top: 530, left: 40),
             child: FloatingActionButton(
 
-                //when this button is pressed
-                //it calls the above alertDialog class
-                //to show the prompt to take a picture from
-                //camera or from gallery
-                onPressed: () {
-                  _alertDialog(context);
-                },
-                tooltip: 'Pick Image',
-                child: Icon(Icons.add_a_photo),
+              //when this button is pressed
+              //it calls the above alertDialog class
+              //to show the prompt to take a picture from
+              //camera or from gallery
+              onPressed: () {
+                _alertDialog(context);
+              },
+              tooltip: 'Pick Image',
+              child: Icon(Icons.add_a_photo),
             ),
           ),
         ],
@@ -576,7 +628,6 @@ Route _createRoutePreview() {
   );
 }
 
-//route builder to change screen from landing screen to edit profile screen
 Route _createRouteEdit() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => EditProfile(),
@@ -594,4 +645,3 @@ Route _createRouteEdit() {
     },
   );
 }
-
