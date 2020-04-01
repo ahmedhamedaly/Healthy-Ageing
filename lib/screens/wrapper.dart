@@ -6,6 +6,8 @@ import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:Healthy_Ageing/models/user.dart';
 
+import 'home/home.dart';
+
 bool registered = true;
 
 class Wrapper extends StatelessWidget {
@@ -18,8 +20,8 @@ class Wrapper extends StatelessWidget {
       return Authenticate();
     }
 
-    if (registered) return DogOwnerOrUserScreen();
-
+    //if (registered) return DogOwnerOrUserScreen();
+    return Home();
     //return FormScreen();
     return new Messaging("Walter", "123", "5");
     return DogOwnerOrUserScreen();

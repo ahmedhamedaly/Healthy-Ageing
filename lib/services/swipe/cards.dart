@@ -4,6 +4,7 @@ import 'package:fluttery_dart2/layout.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
 import 'package:Healthy_Ageing/services/swipe/photos.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class CardStack extends StatefulWidget {
   final MatchEngine matchEngine;
@@ -14,10 +15,30 @@ class CardStack extends StatefulWidget {
   _CardStackState createState() => _CardStackState();
 }
 
+var profileRef = FirebaseDatabase.instance.reference().child('users').child('0');
+
+String firstName = "";
+String surname = "";
+String bio = "";
+String age = "";
+int index = 0;
+
 class _CardStackState extends State<CardStack> {
   Key _frontCard;
   Match _currentMatch;
   double _nextCardScale = 0.0;
+
+
+  Future initProfile() async {
+    await profileRef.once().then((DataSnapshot snapshot) {
+      firstName = snapshot.value["firstName"].toString();
+      surname = snapshot.value["surname"].toString();
+      age = snapshot.value["age"].toString();
+      bio = snapshot.value["bio"].toString();
+    });
+  }
+
+
 
   @override
   void initState() {
@@ -28,6 +49,7 @@ class _CardStackState extends State<CardStack> {
     _currentMatch.addListener(_onMatchChange);
 
     _frontCard = new Key(_currentMatch.profile.name);
+    initProfile();
   }
 
   @override
@@ -89,6 +111,8 @@ class _CardStackState extends State<CardStack> {
   }
 
   Widget _buildFrontCard() {
+    profileRef = FirebaseDatabase.instance.reference().child('users').child(index.toString());
+    initProfile();
     return ProfileCard(
       key: _frontCard,
       profile: widget.matchEngine.currentMatch.profile,
@@ -464,9 +488,13 @@ class _ProfileCardState extends State<ProfileCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  new Text(widget.profile.name + ", " + widget.profile.distance,
+                  new Text(
+                    firstName + ", " + age,
+                    //widget.profile.name + ", " + widget.profile.distance,
                       style: new TextStyle(color: Colors.white, fontSize: 20.0)),
-                  new Text(widget.profile.bio,
+                  new Text(
+                    bio,
+                    //widget.profile.bio,
                       style: new TextStyle(color: Colors.white, fontSize: 16.0)),
 //                  new Text(widget.profile.distance,
 //                      style: new TextStyle(color: Colors.white, fontSize: 12.0))

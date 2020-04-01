@@ -1,11 +1,12 @@
 import 'package:Healthy_Ageing/screens/messaging/matches.dart';
-import 'package:Healthy_Ageing/screens/myprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/services/swipe/cards.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
-import 'package:Healthy_Ageing/utilities/constants.dart';
+
+import '../../services/swipe/cards.dart';
+import '../profile_settings/dog_lover_profile.dart';
 
 
 final MatchEngine matchEngine = new MatchEngine(
@@ -95,6 +96,9 @@ class _HomeState extends State<Home> {
                 icon: Icons.clear,
                 iconColor: Colors.red,
                 onPressed: () {
+                  setState(() {
+                    index+=1;
+                  });
                   matchEngine.currentMatch.nope();
                 },
               ),
@@ -102,6 +106,9 @@ class _HomeState extends State<Home> {
                 icon: Icons.check,
                 iconColor: Colors.green,
                 onPressed: () {
+                  setState(() {
+                    index += 1;
+                  });
                   matchEngine.currentMatch.like();
                 },
               ),
