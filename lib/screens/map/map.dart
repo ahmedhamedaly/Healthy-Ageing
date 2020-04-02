@@ -16,10 +16,21 @@ class _MapState extends State<Map> {
   StreamSubscription _locationSubscription;
   Location _locationTracker = Location();
 
-  List<Marker> allMarkers = new List(2);
+
   static LatLng Default = new LatLng(53.343792, -6.254572);
   LatLng myPos = Default;
   LatLng theirPos = Default;
+  List<Marker> allMarkers = [Marker(
+      markerId: MarkerId('default'),
+      draggable: false,
+      position: Default,
+      visible: false,
+  ),Marker(
+      markerId: MarkerId('default'),
+      draggable: false,
+      position: Default,
+      visible: false,
+  )];
 
   final myDBRef = FirebaseDatabase.instance.reference().child("This should be a userID").child("Location");
   final theirDBRef = FirebaseDatabase.instance.reference().child("Another userID").child("Location");
@@ -165,17 +176,17 @@ class _MapState extends State<Map> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.brown[400],
+          backgroundColor: Colors.blueAccent[400],
           elevation: 0.0,
           title: Text('Map'),
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
-            target:  LatLng(53.3438, -6.2546),
+            target:  myPos,
             zoom: 11.0,
           ),
-          markers: Set.from((allMarkers != null) ? allMarkers : []),
+          markers: Set.from(allMarkers),
         ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.location_searching),
