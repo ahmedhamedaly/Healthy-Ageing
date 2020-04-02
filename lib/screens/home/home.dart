@@ -7,6 +7,7 @@ import 'package:Healthy_Ageing/models/profiles.dart';
 
 import '../../services/swipe/cards.dart';
 import '../profile_settings/dog_lover_profile.dart';
+import '../profile_settings/dog_owner_profile.dart';
 
 
 final MatchEngine matchEngine = new MatchEngine(
@@ -19,19 +20,38 @@ class Home extends StatefulWidget {
 
   Home({Key key}) : super(key: key);
 
+  void setInfoPress(bool a) {
+    infoPress = a;
+    print(infoPress);
+  }
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 bool infoPress = false;
+String userType = 'owner';
 
 class _HomeState extends State<Home> {
 
+  final dogLoverProfile = new DogLoverProfile();
+  final dogOwnerProfile = new OwnerProfile();
 
   Match match = new Match();
 
   final AuthService _auth = AuthService();
+
+  void moveToProfilePage() async {
+    bool a = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => userType == 'owner' ? dogOwnerProfile : dogLoverProfile)
+    );
+    updateInfoPress(a);
+  }
+
+  void updateInfoPress(bool a) {
+    setState(() => infoPress = a);
+  }
 
   Widget _buildAppBar() {
     return AppBar(
@@ -49,9 +69,12 @@ class _HomeState extends State<Home> {
           setState(() {
               infoPress = true;
              });
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MyProfile()),
-              );
+          if (userType == 'owner') {
+            dogOwnerProfile.initProfile();
+          } else {
+            dogLoverProfile.initProfile();
+          }
+          moveToProfilePage();
           _auth.signOut();
           }
 
@@ -120,18 +143,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-
-    if(infoPress) {
-      return Scaffold(
-          appBar: _buildAppBar()
-      );
-    }
-
     return Scaffold(
 
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body: new CardStack(
+      body: infoPress == true ? null : new CardStack(
         matchEngine: matchEngine,
       ),
       bottomNavigationBar: _buildBottomBar(),

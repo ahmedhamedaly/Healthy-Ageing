@@ -21,8 +21,8 @@ String area = "";
 final profileRef = FirebaseDatabase.instance.reference().child('This should be a userID');
 final locationRef = FirebaseDatabase.instance.reference().child("This should be a userID").child("Location");
 
-class MyProfile extends StatefulWidget {
-  MyProfile({Key key, this.title}) : super(key: key);
+class DogLoverProfile extends StatefulWidget {
+  DogLoverProfile({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -40,12 +40,12 @@ class MyProfile extends StatefulWidget {
 
 
   @override
-  _MyProfileState createState() => _MyProfileState();
+  _DogLoverProfileState createState() => _DogLoverProfileState();
 
 }
 
 //class for landing screen of user setting page
-class _MyProfileState extends State<MyProfile> {
+class _DogLoverProfileState extends State<DogLoverProfile> {
 
   final home = new Home();
   bool pressed = false;
@@ -317,7 +317,9 @@ class EditProfile extends StatefulWidget {
       secondName = snapshot.value["Last Name"].toString();
       bio = snapshot.value["Bio"].toString();
       age = snapshot.value["Age"].toString();
-      area = "Malahide";
+      locationRef.once().then((DataSnapshot snap) {
+        area = snap.value['Text'].toString();
+      });
     });
   }
 
