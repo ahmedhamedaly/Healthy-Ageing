@@ -11,8 +11,18 @@ class Matches extends StatefulWidget {
   State<StatefulWidget> createState() => new MatchesState();
 }
 
-class MatchesState extends State<Matches>{
+class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
   List<Match> matches = getMatches();
+  List<Match> dismatches = getDisMatches();
+  TabController _tabController;
+
+  @override
+  void initState() {
+
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
 
   @override
   Widget build(BuildContext context){
@@ -23,17 +33,33 @@ class MatchesState extends State<Matches>{
             child: ListView.builder(
               itemCount: matchList.length,
               itemBuilder: (BuildContext context, int index){
-                return ListTile(
-                  title: Text(matchList[index].name),
-                  onTap: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute<Null>(builder: (BuildContext context) {
-                          //TODO: have each of these stored, and input them
-                          return new Messaging("Walter", "123", "5");
-                        })
-                    );
-                  }
-                );
+                return
+                  Card(
+                    color: Colors.white,
+                    child: ListTile(
+
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(matchList[index].profile_photo),
+                      ),
+
+                      title: Text(matchList[index].OwnerName),
+                      subtitle: Text(matchList[index].PetName),
+                      trailing: (matchList[index].matched_back == true) ?
+                      Icon(Icons.message) :Icon(Icons.hourglass_empty) ,
+                      selected: true,
+                      onTap: (){
+                      if  (matchList[index].matched_back == true) {
+                       Navigator.of(context).push(
+                           MaterialPageRoute<Null>(builder: (
+                               BuildContext context) {
+                             //TODO: have each of these stored, and input them
+                             return new Messaging("Walter", "123", "5");
+                           })
+                       );
+                      }
+                    }
+                    )
+                  );
               },
             )
           )
@@ -52,7 +78,7 @@ class MatchesState extends State<Matches>{
             backgroundColor: Colors.blueAccent[400],
             elevation: 0.0,
 
-            title: Text("List of Matches"),
+            title: Text("Your Matches"),
             leading: IconButton(
               icon: Icon(Icons.navigate_before, color: Colors.black,),
               onPressed: (){
@@ -64,21 +90,32 @@ class MatchesState extends State<Matches>{
             ),
            bottom: TabBar(
              labelColor: Theme.of(context).indicatorColor,
+             controller: _tabController,
              tabs: [
-               Tab(icon: Icon(Icons.favorite_border, size: _imageSize)),
-               Tab(icon: Icon(Icons.favorite, size: _imageSize)),
+               Tab(icon: Icon(Icons.favorite, size:  30, color: Colors.white)),
+               Tab(icon: Icon(Icons.favorite_border, size: 30, color: Colors.white)),
              ]
            ),
           ),
         ),
-       body: Padding(
-         padding: EdgeInsets.all(5.0),
-         child: TabBarView(
+       body:
+          //Container(
+         //color: Colors.white,
+         //child:
+        TabBarView(
+
+            controller: _tabController,
             children: [
               _buildMatches(matches.toList()),
-              Center(child: Icon(Icons.settings)),
+              _buildMatches(dismatches.toList()),
             ],
           ),
+       //),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.update),
+            onPressed: (){
+
+            }
         ),
 
       )

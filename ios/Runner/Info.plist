@@ -83,17 +83,16 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
-<<<<<<< HEAD
+
     <key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs access to location when in the background.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-=======
+
 
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs access to location when in the background.</string>
 
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
->>>>>>> 8c549ac24ffe2c95b1c8d2f10139a74d859ef23a
 	<string>This app needs access to location when open and in the background.</string>
 </dict>
 </plist>
