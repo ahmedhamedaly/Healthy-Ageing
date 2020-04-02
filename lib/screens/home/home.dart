@@ -1,9 +1,13 @@
 import 'package:Healthy_Ageing/screens/messaging/matches.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/services/swipe/cards.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+
 
 import '../../services/swipe/cards.dart';
 import '../profile_settings/dog_lover_profile.dart';
@@ -30,7 +34,9 @@ class Home extends StatefulWidget {
 }
 
 bool infoPress = false;
-String userType = 'owner';
+String userID = '';
+ bool petOwner = false;
+
 
 class _HomeState extends State<Home> {
 
@@ -44,7 +50,7 @@ class _HomeState extends State<Home> {
   void moveToProfilePage() async {
     bool a = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => userType == 'owner' ? dogOwnerProfile : dogLoverProfile)
+        MaterialPageRoute(builder: (context) => petOwner == true ? dogOwnerProfile : dogLoverProfile)
     );
     updateInfoPress(a);
   }
@@ -69,10 +75,18 @@ class _HomeState extends State<Home> {
           setState(() {
               infoPress = true;
              });
-          if (userType == 'owner') {
-            dogOwnerProfile.initProfile();
+          var userStream = _auth.user;
+           userStream.listen((value) {
+               userID = value.uid;
+           });
+          final profileRef = FirebaseDatabase.instance.reference().child('users').child(userID);
+          profileRef.once().then((DataSnapshot snapshot) {
+              petOwner = snapshot.value["isPetOwner"];
+          });
+          if (petOwner == true) {
+            dogOwnerProfile.initProfile(userID);
           } else {
-            dogLoverProfile.initProfile();
+            dogLoverProfile.initProfile(userID);
           }
           moveToProfilePage();
           _auth.signOut();

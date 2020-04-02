@@ -17,16 +17,18 @@ String secondName = "";
 String bio = "";
 String age = "";
 String area = "";
+String uID = "";
 
-final profileRef = FirebaseDatabase.instance.reference().child('This should be a userID');
-final locationRef = FirebaseDatabase.instance.reference().child("This should be a userID").child("Location");
+final profileRef = FirebaseDatabase.instance.reference();
+final locationRef = FirebaseDatabase.instance.reference().child(userID).child("location");
 
 class DogLoverProfile extends StatefulWidget {
   DogLoverProfile({Key key, this.title}) : super(key: key);
 
   final String title;
 
-  Future initProfile() async {
+  Future initProfile(String uid) async {
+    uID = uid;
     await profileRef.once().then((DataSnapshot snapshot) {
       name = snapshot.value["First Name"].toString();
       secondName = snapshot.value["Last Name"].toString();

@@ -18,8 +18,9 @@ String ownerSecondName = "";
 String dogName = "";
 String bio = "";
 String area = "";
+String uID = "";
 
-final profileRef = FirebaseDatabase.instance.reference().child('Another userID');
+final profileRef = FirebaseDatabase.instance.reference();
 final locationRef = FirebaseDatabase.instance.reference().child('Another userID').child('Location');
 
 class OwnerProfile extends StatefulWidget {
@@ -27,7 +28,8 @@ class OwnerProfile extends StatefulWidget {
 
   final String title;
 
-  Future initProfile() async {
+  Future initProfile(String id) async {
+    uID = id;
     await profileRef.once().then((DataSnapshot snapshot) {
       ownerName = snapshot.value["Owner First Name"].toString();
       ownerSecondName = snapshot.value["Owner Second Name"].toString();
