@@ -11,6 +11,12 @@ final kLabelStyle = TextStyle(
   fontFamily: 'OpenSans',
 );
 
+//Used in messaging; may move/remove later
+Color themeColor = Color.fromRGBO(150, 150, 150, 1);
+Color primaryColor = Color.fromRGBO(0, 0, 0, 1);
+Color greyColor2 = Color.fromRGBO(100, 100, 100, 1);
+Color greyColor = Color.fromRGBO(50, 50, 50, 1);
+
 final kBoxDecorationStyle = BoxDecoration(
   color: Color(0xFF6CA8F1),
   borderRadius: BorderRadius.circular(10.0),

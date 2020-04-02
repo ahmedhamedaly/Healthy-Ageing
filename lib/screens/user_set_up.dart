@@ -3,6 +3,7 @@ import 'package:Healthy_Ageing/screens/photos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 class UserScreen extends StatefulWidget {
@@ -20,6 +21,12 @@ class UserScreenState extends State<UserScreen> {
   String _area;
   String _bio;
   String _availablility;
+  bool _location = false;
+  String _isTick = "";
+  Position _currentPosition;
+  String _experience;
+  String _pullingDog;
+  String _comfort;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _scaffoldKey =  GlobalKey<ScaffoldState>();
@@ -99,6 +106,61 @@ class UserScreenState extends State<UserScreen> {
       },
     );
   }
+  Widget _experienceUser() {
+    return TextFormField(
+      maxLength: 100,
+      minLines: 1,
+      maxLines: 5,
+      decoration: InputDecoration(labelText: 'What is your experience with animals'),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Experience is required';
+        }
+        return null;
+      },
+      onSaved: (String value) {
+        _experience = value;
+      },
+    );
+  }
+
+  Widget _comfortUser() {
+    return TextFormField(
+      maxLength: 50,
+      minLines: 1,
+      maxLines: 3,
+      decoration: InputDecoration(labelText: 'How comfortable are you with dogs'),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Required';
+        }
+        return null;
+      },
+      onSaved: (String value) {
+        _comfort = value;
+      },
+    );
+  }
+  Widget _strengthUser() {
+    return TextFormField(
+      maxLength: 180,
+      minLines: 1,
+      maxLines: 5,
+      decoration: InputDecoration(labelText: 'Are you able for a strong dog'),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Required';
+        }
+        return null;
+      },
+      onSaved: (String value) {
+        _pullingDog = value;
+      },
+    );
+  }
+
+
+
   Widget _buildArea() {
     return TextFormField(
 
@@ -113,6 +175,51 @@ class UserScreenState extends State<UserScreen> {
         _area = value;
       },
     );
+  }
+
+  Widget _buildLocationCheckBox() {
+    return Container(
+      height: 20.0,
+      child: Row(
+        children: <Widget>[
+          Theme(
+            data: ThemeData(unselectedWidgetColor: Colors.white),
+            child: Checkbox(
+              value: _location,
+              checkColor: Colors.green,
+              activeColor: Colors.white,
+              onChanged: (value) {
+                if(_location==false) {
+                  _getCurrentLocation();
+                }
+                setState(() {
+                  _location = value;
+
+                });
+              },
+            ),
+          ),
+          Text(
+            'I accept that Tender will use my Location',
+          ),
+
+        ],
+      ),
+    );
+  }
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -177,22 +284,35 @@ class UserScreenState extends State<UserScreen> {
                         ),
                         SizedBox(height: 30.0),
                         _buildAge(),
-                        SizedBox(height: 30.0),
-                        _buildArea(),
+                        //SizedBox(height: 30.0),
+                       // _buildArea(),
                         SizedBox(height: 30.0),
                         _buildBio(),
                         SizedBox(height: 30.0),
                         _buildAvailability(),
+                        SizedBox(height: 30.0),
+                        _experienceUser(),
+                        SizedBox(height: 30.0),
+                        _comfortUser(),
+                        SizedBox(height: 30.0),
+                       _strengthUser(),
+                        SizedBox(height: 30.0),
+                        _buildLocationCheckBox(),
+                        SizedBox(height: 10.0),
+                        SizedBox(height: 30.0,width:300, child: Text("     *Location is required for matching*", style: TextStyle(color:
+                        Colors.red),)),
                         RaisedButton(
                             child: Text(
                               'Next',
                               style: TextStyle(color: Colors.blue),
                             ),
                             onPressed: () {
-                              if (!_formKey.currentState.validate()) {
+                              if (!_formKey.currentState.validate() || _location == false) {
                                 return;
                               }
                               _formKey.currentState.save();
+                              _getCurrentLocation();
+                              print(_currentPosition);
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context){
                                     return Photos();

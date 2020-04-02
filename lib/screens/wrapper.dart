@@ -1,4 +1,3 @@
-import 'package:Healthy_Ageing/models/user_object.dart';
 import 'package:Healthy_Ageing/screens/authenticate/authenticate.dart';
 import 'package:Healthy_Ageing/screens/messaging/messaging.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
@@ -22,8 +21,9 @@ class Wrapper extends StatelessWidget {
     if (registered) return DogOwnerOrUserScreen();
 
     //return FormScreen();
+    return new DogOwnerOrUserScreen();
     return DogOwnerOrUserScreen();
     return Home();
-    return Messaging(User_Object("123", "Walter"));
+
   }
 }

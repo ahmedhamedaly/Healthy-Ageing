@@ -69,71 +69,72 @@ class PhotosState extends State<Photos> {
     return Scaffold(
         appBar: AppBar(title: Text("Pictures")),
         body: Container(
-      child: SafeArea(
-        child: Column(children: <Widget>[
-          Container(
-            height: 0,
-            width: 500000,
-          ),
-          _path == null
-              ? Expanded(
-                  child: Image.asset(
-                  "images/addPhoto.jpeg",
-                  fit: BoxFit.fitWidth,
-                ))
-              : Expanded(
-                  child: Image.file(
-                  File(_path),
-                  fit: BoxFit.fitWidth,
-                )),
-          FlatButton(
-            child: Text("Add Picture", style: TextStyle(color: Colors.white)),
-            color: Colors.green,
-            onPressed: () {
-              _showOptions(context, 0);
-            },
-          ),
-          _path1 == null
-              ? Expanded(
-                  child: Image.asset(
-                  "images/addPhoto.jpeg",
-                  fit: BoxFit.fitWidth,
-                ))
-              : Expanded(child: Image.file(File(_path1))),
-          FlatButton(
-            child: Text("Add Picture", style: TextStyle(color: Colors.white)),
-            color: Colors.green,
-            onPressed: () {
-              _showOptions(context, 1);
-            },
-          ),
-          _path2 == null
-              ? Expanded(
-                  child: Image.asset(
-                  "images/addPhoto.jpeg",
-                  fit: BoxFit.fitWidth,
-                ))
-              : Expanded(child: Image.file(File(_path2))),
-          FlatButton(
-            child: Text("Add Picture", style: TextStyle(color: Colors.white)),
-            color: Colors.green,
-            onPressed: () {
-              _showOptions(context, 2);
-            },
-          ),
-          RaisedButton(
-              child: Text(
-                'Next',
-                style: TextStyle(color: Colors.blue),
+          child: SafeArea(
+            child: Column(children: <Widget>[
+
+              Container(
+                height: 0,
+                width: 500000,
               ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context){
-                      return Home();
-                    }));
-              })
-        ]),
-      ),
-    ));
+              _path == null
+                  ? Expanded(
+                  child: Image.asset(
+                    "images/addPhoto.jpeg",
+                    fit: BoxFit.fitWidth,
+                  ))
+                  : Expanded(
+                  child: Image.file(
+                    File(_path),
+                    fit: BoxFit.fitWidth,
+                  )),
+              FlatButton(
+                child: Text("Add Picture", style: TextStyle(color: Colors.white)),
+                color: Colors.green,
+                onPressed: () {
+                  _showOptions(context, 0);
+                },
+              ),
+              _path1 == null
+                  ? Expanded(
+                  child: Image.asset(
+                    "images/addPhoto.jpeg",
+                    fit: BoxFit.fitWidth,
+                  ))
+                  : Expanded(child: Image.file(File(_path1))),
+              FlatButton(
+                child: Text("Add Picture", style: TextStyle(color: Colors.white)),
+                color: Colors.green,
+                onPressed: () {
+                  _showOptions(context, 1);
+                },
+              ),
+              _path2 == null
+                  ? Expanded(
+                  child: Image.asset(
+                    "images/addPhoto.jpeg",
+                    fit: BoxFit.fitWidth,
+                  ))
+                  : Expanded(child: Image.file(File(_path2))),
+              FlatButton(
+                child: Text("Add Picture", style: TextStyle(color: Colors.white)),
+                color: Colors.green,
+                onPressed: () {
+                  _showOptions(context, 2);
+                },
+              ),
+              RaisedButton(
+                  child: Text(
+                    'Next',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context){
+                          return Home();
+                        }));
+                  })
+            ]),
+          ),
+        ));
   }
 }

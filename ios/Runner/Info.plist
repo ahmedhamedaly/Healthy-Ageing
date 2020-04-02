@@ -22,9 +22,9 @@
 	<array>
 		<dict>
 			<key>CFBundleURLSchemes</key>
-			<array/>
-			<key>CFBundleURLName</key>
-			<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
+			<array>
+				<string>${YOUR_FACEBOOK_URL}</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -34,7 +34,6 @@
 				<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
 			</array>
 		</dict>
-		<string>com.googleusercontent.apps.246402891643-cdu58d2r978uhc3o14kj2i6f2748031i</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -78,5 +77,11 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open and in the background.</string>
 </dict>
 </plist>
