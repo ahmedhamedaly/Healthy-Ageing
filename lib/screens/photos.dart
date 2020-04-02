@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:Healthy_Ageing/utilities/constants.dart';
 
 class Photos extends StatefulWidget {
   @override
@@ -69,6 +70,7 @@ class PhotosState extends State<Photos> {
     return Scaffold(
         appBar: AppBar(title: Text("Pictures")),
         body: Container(
+<<<<<<< HEAD
           child: SafeArea(
             child: Column(children: <Widget>[
 
@@ -78,6 +80,26 @@ class PhotosState extends State<Photos> {
               ),
               _path == null
                   ? Expanded(
+=======
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [CustomAppColours.scheme1Color1,
+                CustomAppColours.scheme1Color2,
+              ],
+              //stops: [0.1, 0.4, 0.7, 0.9],
+            ),
+          ),
+      child: SafeArea(
+        child: Column(children: <Widget>[
+          Container(
+            height: 0,
+            width: 500000,
+          ),
+          _path == null
+              ? Expanded(
+>>>>>>> 8c549ac24ffe2c95b1c8d2f10139a74d859ef23a
                   child: Image.asset(
                     "images/addPhoto.jpeg",
                     fit: BoxFit.fitWidth,

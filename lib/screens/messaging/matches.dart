@@ -49,8 +49,9 @@ class MatchesState extends State<Matches>{
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
           child:AppBar(
-            backgroundColor: Colors.brown[400],
+            backgroundColor: Colors.blueAccent[400],
             elevation: 0.0,
+
             title: Text("List of Matches"),
             leading: IconButton(
               icon: Icon(Icons.navigate_before, color: Colors.black,),

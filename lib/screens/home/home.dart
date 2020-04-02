@@ -1,10 +1,17 @@
 import 'package:Healthy_Ageing/screens/messaging/matches.dart';
-import 'package:Healthy_Ageing/screens/myprofile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/services/swipe/cards.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+
+
+import '../../services/swipe/cards.dart';
+import '../profile_settings/dog_lover_profile.dart';
+import '../profile_settings/dog_owner_profile.dart';
 
 
 final MatchEngine matchEngine = new MatchEngine(
@@ -17,23 +24,44 @@ class Home extends StatefulWidget {
 
   Home({Key key}) : super(key: key);
 
+  void setInfoPress(bool a) {
+    infoPress = a;
+    print(infoPress);
+  }
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 bool infoPress = false;
+String userID = '';
+ bool petOwner = false;
+
 
 class _HomeState extends State<Home> {
 
+  final dogLoverProfile = new DogLoverProfile();
+  final dogOwnerProfile = new OwnerProfile();
 
   Match match = new Match();
 
   final AuthService _auth = AuthService();
 
+  void moveToProfilePage() async {
+    bool a = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => petOwner == true ? dogOwnerProfile : dogLoverProfile)
+    );
+    updateInfoPress(a);
+  }
+
+  void updateInfoPress(bool a) {
+    setState(() => infoPress = a);
+  }
+
   Widget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.brown[400],
+      backgroundColor: Color(0xff289eff),
       elevation: 0.0,
       centerTitle: true,
       leading: new IconButton(
@@ -47,9 +75,20 @@ class _HomeState extends State<Home> {
           setState(() {
               infoPress = true;
              });
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MyProfile()),
-              );
+          var userStream = _auth.user;
+           userStream.listen((value) {
+               userID = value.uid;
+           });
+          final profileRef = FirebaseDatabase.instance.reference().child('users').child(userID);
+          profileRef.once().then((DataSnapshot snapshot) {
+              petOwner = snapshot.value["isPetOwner"];
+          });
+          if (petOwner == true) {
+            dogOwnerProfile.initProfile(userID);
+          } else {
+            dogLoverProfile.initProfile(userID);
+          }
+          moveToProfilePage();
           _auth.signOut();
           }
 
@@ -82,8 +121,9 @@ class _HomeState extends State<Home> {
 
   Widget _buildBottomBar() {
     return BottomAppBar(
-        color: Colors.brown[100],
+        color: Colors.white,
         elevation: 0.0,
+
         child: new Padding(
           padding: const EdgeInsets.all(16.0),
           child: new Row(
@@ -93,6 +133,9 @@ class _HomeState extends State<Home> {
                 icon: Icons.clear,
                 iconColor: Colors.red,
                 onPressed: () {
+                  setState(() {
+                    index+=1;
+                  });
                   matchEngine.currentMatch.nope();
                 },
               ),
@@ -100,6 +143,9 @@ class _HomeState extends State<Home> {
                 icon: Icons.check,
                 iconColor: Colors.green,
                 onPressed: () {
+                  setState(() {
+                    index += 1;
+                  });
                   matchEngine.currentMatch.like();
                 },
               ),
@@ -111,20 +157,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-
-    if(infoPress) {
-      return Scaffold(
-          appBar: _buildAppBar()
-      );
-    }
-
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body: new CardStack(
+      body: infoPress == true ? null : new CardStack(
         matchEngine: matchEngine,
       ),
       bottomNavigationBar: _buildBottomBar(),
+
     );
   }
 }

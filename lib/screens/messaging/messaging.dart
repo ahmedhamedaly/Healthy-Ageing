@@ -47,7 +47,7 @@ class _MessagingState extends State<Messaging> {
     return Scaffold(
         backgroundColor: Colors.brown[100],
         appBar: AppBar(
-          backgroundColor: Colors.brown[400],
+          backgroundColor: Colors.blueAccent[400],
           elevation: 0.0,
           title: Text('Messaging with: ' + widget.name),
 
@@ -168,7 +168,7 @@ class _MessagingState extends State<Messaging> {
   Widget buildListMessage() {
     return Flexible(
       child: groupChatId == ''
-          ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)))
+          ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(CustomAppColours.themeColor)))
           : StreamBuilder(
         stream: Firestore.instance
             .collection('messages')
@@ -180,7 +180,7 @@ class _MessagingState extends State<Messaging> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)));
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(CustomAppColours.themeColor)));
           } else {
             listMessage = snapshot.data.documents;
             return ListView.builder(
@@ -206,11 +206,11 @@ class _MessagingState extends State<Messaging> {
               ? Container(
             child: Text(
               document['content'],
-              style: TextStyle(color: primaryColor),
+              style: TextStyle(color: CustomAppColours.primaryColor),
             ),
             padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
             width: 200.0,
-            decoration: BoxDecoration(color: greyColor2, borderRadius: BorderRadius.circular(8.0)),
+            decoration: BoxDecoration(color: CustomAppColours.greyColor2, borderRadius: BorderRadius.circular(8.0)),
             margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
           )
               : document['type'] == 1
@@ -312,7 +312,7 @@ class _MessagingState extends State<Messaging> {
                   ),
                   padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                   width: 200.0,
-                  decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(8.0)),
+                  decoration: BoxDecoration(color: CustomAppColours.primaryColor, borderRadius: BorderRadius.circular(8.0)),
                   margin: EdgeInsets.only(left: 10.0),
                 )
                     : document['type'] == 1
@@ -379,7 +379,7 @@ class _MessagingState extends State<Messaging> {
                 ? Container(
               child: Text(
                DateTime.fromMillisecondsSinceEpoch(int.parse(document['timestamp'])).toIso8601String(),
-                style: TextStyle(color: greyColor, fontSize: 12.0, fontStyle: FontStyle.italic),
+                style: TextStyle(color: CustomAppColours.greyColor, fontSize: 12.0, fontStyle: FontStyle.italic),
               ),
               margin: EdgeInsets.only(left: 50.0, top: 5.0, bottom: 5.0),
             )

@@ -1,4 +1,5 @@
 // This is a generated file; do not edit or check into version control.
+<<<<<<< HEAD
 FLUTTER_ROOT=/Users/jackkeenan/Documents/flutter
 FLUTTER_APPLICATION_PATH=/Users/jackkeenan/Documents/Healthy-Ageing
 FLUTTER_TARGET=/Users/jackkeenan/Documents/Healthy-Ageing/lib/main.dart
@@ -6,6 +7,14 @@ FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build/ios
 OTHER_LDFLAGS=$(inherited) -framework Flutter
 FLUTTER_FRAMEWORK_DIR=/Users/jackkeenan/Documents/flutter/bin/cache/artifacts/engine/ios
+=======
+FLUTTER_ROOT=/Users/sanilgupta/Developer/flutter
+FLUTTER_APPLICATION_PATH=/Users/sanilgupta/AndroidStudioProjects /Healthy-Ageing
+FLUTTER_TARGET=/Users/sanilgupta/AndroidStudioProjects /Healthy-Ageing/lib/main.dart
+FLUTTER_BUILD_DIR=build
+SYMROOT=${SOURCE_ROOT}/../build/ios
+FLUTTER_FRAMEWORK_DIR=/Users/sanilgupta/Developer/flutter/bin/cache/artifacts/engine/ios
+>>>>>>> 8c549ac24ffe2c95b1c8d2f10139a74d859ef23a
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
 TRACK_WIDGET_CREATION=true
