@@ -70,17 +70,6 @@ class PhotosState extends State<Photos> {
     return Scaffold(
         appBar: AppBar(title: Text("Pictures")),
         body: Container(
-<<<<<<< HEAD
-          child: SafeArea(
-            child: Column(children: <Widget>[
-
-              Container(
-                height: 0,
-                width: 500000,
-              ),
-              _path == null
-                  ? Expanded(
-=======
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -99,7 +88,6 @@ class PhotosState extends State<Photos> {
           ),
           _path == null
               ? Expanded(
->>>>>>> 8c549ac24ffe2c95b1c8d2f10139a74d859ef23a
                   child: Image.asset(
                     "images/addPhoto.jpeg",
                     fit: BoxFit.fitWidth,

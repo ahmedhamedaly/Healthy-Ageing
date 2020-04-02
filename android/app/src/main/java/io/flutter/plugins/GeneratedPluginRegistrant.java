@@ -25,10 +25,7 @@ public final class GeneratedPluginRegistrant {
     flutterEngine.getPlugins().add(new com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.googlemaps.GoogleMapsPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.imagepicker.ImagePickerPlugin());
-<<<<<<< HEAD
-=======
     flutterEngine.getPlugins().add(new com.lyokone.location.LocationPlugin());
->>>>>>> 8c549ac24ffe2c95b1c8d2f10139a74d859ef23a
       com.baseflow.location_permissions.LocationPermissionsPlugin.registerWith(shimPluginRegistry.registrarFor("com.baseflow.location_permissions.LocationPermissionsPlugin"));
   }
 }

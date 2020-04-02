@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
 import 'package:geolocator/geolocator.dart';
-<<<<<<< HEAD
-=======
+
 import 'package:Healthy_Ageing/utilities/constants.dart';
->>>>>>> 8c549ac24ffe2c95b1c8d2f10139a74d859ef23a
+
 
 
 class UserScreen extends StatefulWidget {
