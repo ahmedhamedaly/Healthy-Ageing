@@ -55,6 +55,11 @@ class _HomeState extends State<Home> {
     updateInfoPress(a);
   }
 
+  void getUserID() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    userID = user.uid.toString();
+  }
+
   void updateInfoPress(bool a) {
     setState(() => infoPress = a);
   }
@@ -75,10 +80,7 @@ class _HomeState extends State<Home> {
           setState(() {
               infoPress = true;
              });
-          var userStream = _auth.user;
-           userStream.listen((value) {
-               userID = value.uid;
-           });
+          getUserID();
           final profileRef = FirebaseDatabase.instance.reference().child('users').child(userID);
           profileRef.once().then((DataSnapshot snapshot) {
               petOwner = snapshot.value["isPetOwner"];
