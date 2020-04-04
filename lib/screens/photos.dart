@@ -3,6 +3,8 @@ import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:Healthy_Ageing/utilities/constants.dart';
+import 'package:firebase_database/firebase_database.dart';
+final databaseReference = FirebaseDatabase.instance.reference();
 
 class Photos extends StatefulWidget {
   @override
@@ -64,6 +66,14 @@ class PhotosState extends State<Photos> {
   String _path = null;
   String _path1 = null;
   String _path2 = null;
+  void createRecord() async {
+
+    databaseReference.child("profile pictures").set({
+      'picture1': _path,
+      'picture2': _path1,
+      'picture3': _path2,
+    });}
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +148,7 @@ class PhotosState extends State<Photos> {
                     style: TextStyle(color: Colors.blue),
                   ),
                   onPressed: () {
+                    createRecord();
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context){
                           return Home();
