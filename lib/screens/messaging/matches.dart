@@ -1,7 +1,9 @@
 //List of matched users. Tapping one will open messaging to that user.
+import 'dart:async';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:Healthy_Ageing/models/match.dart';
 import 'package:Healthy_Ageing/screens/home/home.dart';
-import 'package:Healthy_Ageing/utilities/matches_store.dart';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:Healthy_Ageing/screens/messaging/messaging.dart';
@@ -12,8 +14,9 @@ class Matches extends StatefulWidget {
 }
 
 class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
-  List<Match> matches = getMatches();
-  List<Match> dismatches = getDisMatches();
+  String uID = "1";
+  List<Match> matches;
+  List<Match> dismatches;
   TabController _tabController;
 
   @override
@@ -21,7 +24,65 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
 
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    getMatchData();
+    getPendingData();
+
   }
+
+  Future getMatchData() async {
+    DatabaseReference reff = FirebaseDatabase.instance.reference().child("users").child(uID);
+
+    List<Match> matched = new List();
+    List<String> matchID = new List();
+    await reff.child("matched").once().then((DataSnapshot dataSnapShot) {
+      Map<dynamic, dynamic> idMap = dataSnapShot.value;
+      idMap.forEach((key, value) {
+          matchID.add(value.toString());
+      });
+    });
+    matchID.forEach((element) async {
+      DatabaseReference id_reff = FirebaseDatabase.instance.reference().child("users").child(element);
+      await id_reff.once().then((DataSnapshot dataSnapShot){
+        String fname = dataSnapShot.value["firstName"].toString();
+        String lname = dataSnapShot.value["surname"].toString();
+        String pname = dataSnapShot.value["petName"].toString();
+        String propic = dataSnapShot.value["profilePic"].toString();
+        matched.add(new Match(id: element, OwnerName: fname + " " + lname, PetName: pname, profile_photo: propic, matched_back: true));
+      });
+    });
+
+    matches = matched;
+
+
+}
+
+  Future getPendingData() async {
+    DatabaseReference reff = FirebaseDatabase.instance.reference().child("users").child(uID);
+
+    List<Match> pending = new List();
+    List<String> pendingID = new List();
+    await reff.child("pending").once().then((DataSnapshot dataSnapShot) {
+      Map<dynamic, dynamic> idMap = dataSnapShot.value;
+      idMap.forEach((key, value) {
+        pendingID.add(value.toString());
+      });
+    });
+    pendingID.forEach((element) async {
+      DatabaseReference id_reff = FirebaseDatabase.instance.reference().child("users").child(element);
+      await id_reff.once().then((DataSnapshot dataSnapShot){
+        String fname = dataSnapShot.value["firstName"].toString();
+        String lname = dataSnapShot.value["surname"].toString();
+        String pname = dataSnapShot.value["petName"].toString();
+        String propic = dataSnapShot.value["profilePic"].toString();
+        pending.add(new Match(id: element, OwnerName: fname + " " + lname, PetName: pname, profile_photo: propic, matched_back: false));
+      });
+    });
+
+    dismatches = pending;
+  }
+
+
+
 
 
   @override
@@ -114,6 +175,10 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.update),
             onPressed: (){
+              setState(() {
+                getMatchData();
+                getPendingData();
+              });
 
             }
         ),
@@ -121,4 +186,3 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
       )
     );
   }
-}
