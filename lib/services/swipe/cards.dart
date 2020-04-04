@@ -1,10 +1,9 @@
 import 'dart:math';
+import 'package:Healthy_Ageing/models/profiles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttery_dart2/layout.dart';
-import 'package:Healthy_Ageing/models/profiles.dart';
-import 'package:Healthy_Ageing/services/swipe/photos.dart';
-import 'package:Healthy_Ageing/services/swipe/matches.dart';
-import 'package:firebase_database/firebase_database.dart';
+import './photos.dart';
+import './matches.dart';
 
 class CardStack extends StatefulWidget {
   final MatchEngine matchEngine;
@@ -15,30 +14,10 @@ class CardStack extends StatefulWidget {
   _CardStackState createState() => _CardStackState();
 }
 
-var profileRef = FirebaseDatabase.instance.reference().child('users').child('0');
-
-String firstName = "";
-String surname = "";
-String bio = "";
-String age = "";
-int index = 0;
-
 class _CardStackState extends State<CardStack> {
   Key _frontCard;
   Match _currentMatch;
   double _nextCardScale = 0.0;
-
-
-  Future initProfile() async {
-    await profileRef.once().then((DataSnapshot snapshot) {
-      firstName = snapshot.value["firstName"].toString();
-      surname = snapshot.value["surname"].toString();
-      age = snapshot.value["age"].toString();
-      bio = snapshot.value["bio"].toString();
-    });
-  }
-
-
 
   @override
   void initState() {
@@ -49,7 +28,6 @@ class _CardStackState extends State<CardStack> {
     _currentMatch.addListener(_onMatchChange);
 
     _frontCard = new Key(_currentMatch.profile.name);
-    initProfile();
   }
 
   @override
@@ -111,8 +89,6 @@ class _CardStackState extends State<CardStack> {
   }
 
   Widget _buildFrontCard() {
-    profileRef = FirebaseDatabase.instance.reference().child('users').child(index.toString());
-    initProfile();
     return ProfileCard(
       key: _frontCard,
       profile: widget.matchEngine.currentMatch.profile,
@@ -233,13 +209,13 @@ class _DraggableCardState extends State<DraggableCard>
       duration: const Duration(milliseconds: 1000),
     )
       ..addListener(() => setState(() {
-            cardOffset = Offset.lerp(slideBackStart, const Offset(0.0, 0.0),
-                Curves.elasticOut.transform(slideBackAnimation.value));
+        cardOffset = Offset.lerp(slideBackStart, const Offset(0.0, 0.0),
+            Curves.elasticOut.transform(slideBackAnimation.value));
 
-            if (null != widget.onSlideUpdate) {
-              widget.onSlideUpdate(cardOffset.distance);
-            }
-          }))
+        if (null != widget.onSlideUpdate) {
+          widget.onSlideUpdate(cardOffset.distance);
+        }
+      }))
       ..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed) {
           setState(() {
@@ -255,12 +231,12 @@ class _DraggableCardState extends State<DraggableCard>
       duration: const Duration(milliseconds: 500),
     )
       ..addListener(() => setState(() {
-            cardOffset = slideOutTween.evaluate(slideOutAnimation);
+        cardOffset = slideOutTween.evaluate(slideOutAnimation);
 
-            if (null != widget.onSlideUpdate) {
-              widget.onSlideUpdate(cardOffset.distance);
-            }
-          }))
+        if (null != widget.onSlideUpdate) {
+          widget.onSlideUpdate(cardOffset.distance);
+        }
+      }))
       ..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed) {
           setState(() {
@@ -382,7 +358,7 @@ class _DraggableCardState extends State<DraggableCard>
         slideOutAnimation.forward(from: 0.0);
 
         slideOutDirection =
-            isInLeftRegion ? SlideDirection.left : SlideDirection.right;
+        isInLeftRegion ? SlideDirection.left : SlideDirection.right;
       } else if (isInTopRegion) {
         slideOutTween = new Tween(
             begin: cardOffset, end: dragVector * (2 * context.size.height));
@@ -399,7 +375,7 @@ class _DraggableCardState extends State<DraggableCard>
   double _rotation(Rect dragBounds) {
     if (dragStart != null) {
       final rotationCornerMultiplier =
-          dragStart.dy >= dragBounds.top + (dragBounds.height / 2) ? -1 : 1;
+      dragStart.dy >= dragBounds.top + (dragBounds.height / 2) ? -1 : 1;
       return (pi / 8) *
           (cardOffset.dx / dragBounds.width) *
           rotationCornerMultiplier;
@@ -426,8 +402,8 @@ class _DraggableCardState extends State<DraggableCard>
           position: anchor,
           child: new Transform(
             transform:
-                new Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0)
-                  ..rotateZ(_rotation(anchorBounds)),
+            new Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0)
+              ..rotateZ(_rotation(anchorBounds)),
             origin: _rotationOrigin(anchorBounds),
             child: new Container(
               key: profileCardKey,
@@ -476,9 +452,9 @@ class _ProfileCardState extends State<ProfileCard> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-              Colors.transparent,
-              Colors.black.withOpacity(0.8),
-            ])),
+                  Colors.transparent,
+                  Colors.black.withOpacity(0.8),
+                ])),
         padding: const EdgeInsets.all(24.0),
         child: new Row(
           mainAxisSize: MainAxisSize.max,
@@ -488,13 +464,9 @@ class _ProfileCardState extends State<ProfileCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  new Text(
-                    firstName + ", " + age,
-                    //widget.profile.name + ", " + widget.profile.distance,
+                  new Text(widget.profile.name + ", " + widget.profile.distance,
                       style: new TextStyle(color: Colors.white, fontSize: 20.0)),
-                  new Text(
-                    bio,
-                    //widget.profile.bio,
+                  new Text(widget.profile.bio,
                       style: new TextStyle(color: Colors.white, fontSize: 16.0)),
 //                  new Text(widget.profile.distance,
 //                      style: new TextStyle(color: Colors.white, fontSize: 12.0))
