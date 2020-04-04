@@ -55,8 +55,10 @@ class AuthService {
     }
   }
 
-  signIn(AuthCredential authCreds) {
-    FirebaseAuth.instance.signInWithCredential(authCreds);
+  Future signIn(AuthCredential authCreds) async {
+
+    AuthResult result = await _auth.signInWithCredential(authCreds);
+    
   }
 
   signInWithOTP(smsCode, verId){

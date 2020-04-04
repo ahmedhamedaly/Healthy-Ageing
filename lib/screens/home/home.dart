@@ -109,6 +109,7 @@ class _HomeState extends State<Home> {
             setState(() {
               infoPress = true;
             });
+            _auth.signOut();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Matches()),
