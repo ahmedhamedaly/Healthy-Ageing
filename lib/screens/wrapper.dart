@@ -20,9 +20,9 @@ class Wrapper extends StatelessWidget {
       return Authenticate();
     }
 
-    return Authenticate();
+    //return Authenticate();
     //if (registered) return DogOwnerOrUserScreen();
-    //return Home();
+    return Home();
     //return FormScreen();
     //return new DogOwnerOrUserScreen();
     //return DogOwnerOrUserScreen();
