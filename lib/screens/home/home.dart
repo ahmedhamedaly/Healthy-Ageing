@@ -34,8 +34,8 @@ class Home extends StatefulWidget {
 }
 
 bool infoPress = false;
-String userID = '';
- bool petOwner = false;
+String userID = " ";
+ String petOwner = "false";
 
 
 class _HomeState extends State<Home> {
@@ -47,21 +47,39 @@ class _HomeState extends State<Home> {
 
   final AuthService _auth = AuthService();
 
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   void moveToProfilePage() async {
     bool a = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => petOwner == true ? dogOwnerProfile : dogLoverProfile)
+        MaterialPageRoute(builder: (context) => petOwner == "true" ? dogOwnerProfile : dogLoverProfile)
     );
     updateInfoPress(a);
   }
 
-  void getUserID() async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    userID = user.uid.toString();
-  }
-
   void updateInfoPress(bool a) {
     setState(() => infoPress = a);
+  }
+
+  Future<String> getUserID() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    final String uid = user.uid.toString();
+    print("User id =" + uid);
+    return uid;
+  }
+
+  void getReference() async {
+    var currentUserID = await getUserID();
+    final profileRef = FirebaseDatabase.instance.reference().child('users').child(currentUserID);
+    profileRef.once().then((DataSnapshot snapshot) {
+      petOwner = snapshot.value["isPetOwner"];
+    });
+    if (petOwner == "true") {
+      dogOwnerProfile.initProfile(currentUserID);
+    } else {
+      dogLoverProfile.initProfile(currentUserID);
+    }
+    moveToProfilePage();
   }
 
   Widget _buildAppBar() {
@@ -80,18 +98,7 @@ class _HomeState extends State<Home> {
           setState(() {
               infoPress = true;
              });
-          getUserID();
-          final profileRef = FirebaseDatabase.instance.reference().child('users').child(userID);
-          profileRef.once().then((DataSnapshot snapshot) {
-              petOwner = snapshot.value["isPetOwner"];
-          });
-          if (petOwner == true) {
-            dogOwnerProfile.initProfile(userID);
-          } else {
-            dogLoverProfile.initProfile(userID);
-          }
-          moveToProfilePage();
-          _auth.signOut();
+            getReference();
           }
 
       ),

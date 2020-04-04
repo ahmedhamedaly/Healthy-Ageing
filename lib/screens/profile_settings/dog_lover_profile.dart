@@ -6,7 +6,8 @@ import 'dart:async'; //need these too for the image selection to work
 import 'dart:io';
 import 'package:Healthy_Ageing/utilities/constants.dart';
 import 'package:firebase_database/firebase_database.dart';
-
+import 'package:Healthy_Ageing/services/auth.dart';
+import 'package:Healthy_Ageing/screens/authenticate/authenticate.dart';
 
 //uninitalised variable for uploading user's own profile picture
 File _image;
@@ -19,8 +20,8 @@ String age = "";
 String area = "";
 String uID = "";
 
-final profileRef = FirebaseDatabase.instance.reference();
-final locationRef = FirebaseDatabase.instance.reference().child(userID).child("location");
+final profileRef = FirebaseDatabase.instance.reference().child("users");
+
 
 class DogLoverProfile extends StatefulWidget {
   DogLoverProfile({Key key, this.title}) : super(key: key);
@@ -29,13 +30,17 @@ class DogLoverProfile extends StatefulWidget {
 
   Future initProfile(String uid) async {
     uID = uid;
-    await profileRef.once().then((DataSnapshot snapshot) {
-      name = snapshot.value["First Name"].toString();
-      secondName = snapshot.value["Last Name"].toString();
-      bio = snapshot.value["Bio"].toString();
-      age = snapshot.value["Age"].toString();
+    print("User id = " + uID);
+    var infoRef = profileRef.child(uID.toString());
+    var locationRef = infoRef.child("location");
+    await infoRef.once().then((DataSnapshot snapshot) {
+      print("Profile data: ${snapshot.value}");
+      name = snapshot.value["firstName"].toString();
+      secondName = snapshot.value["surname"].toString();
+      bio = snapshot.value["bio"].toString();
+      age = snapshot.value["age"].toString();
       locationRef.once().then((DataSnapshot snap) {
-        area = snap.value['Text'].toString();
+        area = snap.value["town"].toString();
       });
     });
   }
@@ -84,7 +89,7 @@ class _DogLoverProfileState extends State<DogLoverProfile> {
 
           //container for user name and age
           Container(
-            margin: EdgeInsets.only(top: 50)
+              margin: EdgeInsets.only(top: 50)
           ),
           Text(name + " - " + age, style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -100,7 +105,7 @@ class _DogLoverProfileState extends State<DogLoverProfile> {
 
               //container for user bio
               Container(
-                margin: EdgeInsets.only(top: 60)
+                  margin: EdgeInsets.only(top: 60)
               ),
               Text(bio, style: TextStyle (
                   fontSize: 24.0,
@@ -181,12 +186,12 @@ class _PreviewProfileState extends State<PreviewProfile> {
           Container(
             height: 470,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
-              gradient: LinearGradient(
-                colors: [CustomAppColours.scheme1Color1, CustomAppColours.scheme1Color2],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight
-              )
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0)),
+                gradient: LinearGradient(
+                    colors: [CustomAppColours.scheme1Color1, CustomAppColours.scheme1Color2],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight
+                )
             ),
           ),
           AppBar(
@@ -197,108 +202,108 @@ class _PreviewProfileState extends State<PreviewProfile> {
           //container for previewing how the user's profile looks to other
           //users of the app
           Container(
-            margin: const EdgeInsets.only(top: 80),
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 30.0),
-                Expanded(
-                  child: Stack (
-                    children: <Widget>[
-                      Container(
-                        height: 400,
-                        width: 400,
-                        margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0, bottom: 0),
+              margin: const EdgeInsets.only(top: 80),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 30.0),
+                  Expanded(
+                    child: Stack (
+                      children: <Widget>[
+                        Container(
+                          height: 400,
+                          width: 400,
+                          margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0, bottom: 0),
 
-                        //user's profile picture
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          //user's profile picture
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
 
-                          //if statement to enable changing the user profile picture
-                          //if the image variable is still uninitialised, the default picture
-                          //woman.jpg is used
-                          //else the user selected picture is rendered
-                          child: _image == null? Image(image: AssetImage('assets/Woman.jpg'), fit: BoxFit.cover) : Image.file(_image),
+                            //if statement to enable changing the user profile picture
+                            //if the image variable is still uninitialised, the default picture
+                            //woman.jpg is used
+                            //else the user selected picture is rendered
+                            child: _image == null? Image(image: AssetImage('assets/Woman.jpg'), fit: BoxFit.cover) : Image.file(_image),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.topCenter,
+                        Container(
+                          alignment: Alignment.topCenter,
 
-                        //other UI bits
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-
-                          //shows the distance of the user, in this case 0 km
-                          child: Text("0 km away", style: TextStyle(fontSize: 18.0)),
-                        ),
-                      ),
-
-                      //UI bits to show the name and age of the user
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: 170),
-                        child: Container(
-                              child: Text(name + " " + secondName + " - " + age,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 35.0
-                                )
-                              ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-
-                          //information icon to indicate bio of user
-                          Container(
-                            margin: EdgeInsets.only(top: 520),
-                            child: Icon(Icons.info_outline, color: Colors.grey, size: 30),
-                          ),
-
-                          //container for bio of user
-                          Container(
-                            margin: EdgeInsets.only(top: 520, left: 10),
-                            child: Text(bio,
-                            style: TextStyle(
-                              color: Colors.lightBlueAccent,
-                              fontSize: 24,
-                            ),),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-
-                          //location icon to indicate the area the user is in
-                          Container(
-                            margin: EdgeInsets.only(top: 570, right: 5),
-                            child: Icon(Icons.location_on, color: Colors.grey, size: 40),
-                          ),
-
-                         //container for location of user
-                         Container(
-                           margin: EdgeInsets.only(top: 570, left: 7),
-                           child: Text(area,
-                               style: TextStyle(
-                                   fontSize: 25,
-                                   color: Colors.grey.shade600
-                               ),
+                          //other UI bits
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.yellow,
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
-                           )
-                        ],
-                      ),
-                    ],
+
+                            //shows the distance of the user, in this case 0 km
+                            child: Text("0 km away", style: TextStyle(fontSize: 18.0)),
+                          ),
+                        ),
+
+                        //UI bits to show the name and age of the user
+                        Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 170),
+                          child: Container(
+                            child: Text(name + " " + secondName + " - " + age,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 35.0
+                                )
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+
+                            //information icon to indicate bio of user
+                            Container(
+                              margin: EdgeInsets.only(top: 520),
+                              child: Icon(Icons.info_outline, color: Colors.grey, size: 30),
+                            ),
+
+                            //container for bio of user
+                            Container(
+                              margin: EdgeInsets.only(top: 520, left: 10),
+                              child: Text(bio,
+                                style: TextStyle(
+                                  color: Colors.lightBlueAccent,
+                                  fontSize: 24,
+                                ),),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+
+                            //location icon to indicate the area the user is in
+                            Container(
+                              margin: EdgeInsets.only(top: 570, right: 5),
+                              child: Icon(Icons.location_on, color: Colors.grey, size: 40),
+                            ),
+
+                            //container for location of user
+                            Container(
+                              margin: EdgeInsets.only(top: 570, left: 7),
+                              child: Text(area,
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Colors.grey.shade600
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )
+                ],
+              )
           ),
         ],
       ),
@@ -314,13 +319,15 @@ class EditProfile extends StatefulWidget {
   final String title;
 
   Future initProfile() async {
-    await profileRef.once().then((DataSnapshot snapshot) {
-      name = snapshot.value["First Name"].toString();
-      secondName = snapshot.value["Last Name"].toString();
-      bio = snapshot.value["Bio"].toString();
-      age = snapshot.value["Age"].toString();
+    var infoRef = profileRef.child(uID.toString());
+    var locationRef = infoRef.child('location');
+    await infoRef.once().then((DataSnapshot snapshot) {
+      name = snapshot.value["firstName"].toString();
+      secondName = snapshot.value["surname"].toString();
+      bio = snapshot.value["bio"].toString();
+      age = snapshot.value["age"].toString();
       locationRef.once().then((DataSnapshot snap) {
-        area = snap.value['Text'].toString();
+        area = snap.value['town'].toString();
       });
     });
   }
@@ -330,6 +337,8 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+
+  var infoRef = profileRef.child(uID);
 
   //alert dialog box that pops up when
   //user wants to upload a new profile picture
@@ -399,10 +408,17 @@ class _EditProfileState extends State<EditProfile> {
   Widget build (BuildContext context) {
     return Scaffold(
       appBar:
-          AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
+      AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.navigate_before, color: Colors.black,),
+          onPressed: (){
+            DogLoverProfile().initProfile(uID);
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Stack(
         children: <Widget>[
 
@@ -423,23 +439,23 @@ class _EditProfileState extends State<EditProfile> {
           Container(
             margin: EdgeInsets.only(top: 30, left: 40),
             child: TextField(
-                  style: TextStyle(
-                    fontSize: 40
-                  ),
-                  decoration: InputDecoration(
+              style: TextStyle(
+                  fontSize: 40
+              ),
+              decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: name
-                  ),
-                  onSubmitted: (String value) async {
-                    profileRef.update({
-                      'First Name' : value
-                    });
-                    setState(() {
-                      profileRef.once().then((DataSnapshot snapshot) {
-                        name = snapshot.value["First Name"];
-                      });
-                    });
-                  },
+              ),
+              onSubmitted: (String value) async {
+                infoRef.update({
+                  'firstName' : value
+                });
+                setState(() {
+                  infoRef.once().then((DataSnapshot snapshot) {
+                    name = snapshot.value["firstName"];
+                  });
+                });
+              },
             ),
           ),
 
@@ -464,16 +480,16 @@ class _EditProfileState extends State<EditProfile> {
                   fontSize: 40
               ),
               decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: secondName
+                  border: InputBorder.none,
+                  hintText: secondName
               ),
               onSubmitted: (String value) async {
-                profileRef.update( {
-                  'Last Name' : value
+                infoRef.update( {
+                  'surname' : value
                 });
                 setState(() {
-                  profileRef.once().then((DataSnapshot snapshot) {
-                    secondName = snapshot.value["Last Name"];
+                  infoRef.once().then((DataSnapshot snapshot) {
+                    secondName = snapshot.value["surname"];
                   });
                 });
 
@@ -483,38 +499,38 @@ class _EditProfileState extends State<EditProfile> {
 
           //prompt for the bio field
           Container(
-            margin: EdgeInsets.only(top: 200, left: 40),
-            child: Text(
-              "Bio",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.blue,
-              ),
-            )
+              margin: EdgeInsets.only(top: 200, left: 40),
+              child: Text(
+                "Bio",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blue,
+                ),
+              )
           ),
 
           //field to allow user to change their bio
           Container(
-            margin: EdgeInsets.only(top: 210, left: 40),
-            child: TextField(
-              style: TextStyle(
-                fontSize: 40
-              ),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: bio
-              ),
-              onSubmitted: (String value) {
-                profileRef.update({
-                  'Bio' : value
-                });
-                setState(() {
-                  profileRef.once().then((DataSnapshot snapshot) {
-                    bio = snapshot.value['Bio'];
+              margin: EdgeInsets.only(top: 210, left: 40),
+              child: TextField(
+                style: TextStyle(
+                    fontSize: 40
+                ),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: bio
+                ),
+                onSubmitted: (String value) {
+                  infoRef.update({
+                    'bio' : value
                   });
-                });
-              },
-            )
+                  setState(() {
+                    infoRef.once().then((DataSnapshot snapshot) {
+                      bio = snapshot.value['bio'];
+                    });
+                  });
+                },
+              )
           ),
 
           //prompt for age field
@@ -541,12 +557,12 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: age
                 ),
                 onSubmitted: (String value) {
-                  profileRef.update({
-                    'Age' : int.parse(value)
+                  infoRef.update({
+                    'age' : int.parse(value)
                   });
                   setState(() {
-                    profileRef.once().then((DataSnapshot snapshot) {
-                      age = snapshot.value["Age"].toString();
+                    infoRef.once().then((DataSnapshot snapshot) {
+                      age = snapshot.value["age"].toString();
                     });
                   });
                 },
@@ -577,13 +593,13 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: area
                 ),
                 onSubmitted: (String value) {
-
+                  var locationRef = infoRef.child('location');
                   locationRef.update({
-                    'Text' : value
+                    'town' : value
                   });
                   setState(() {
                     locationRef.once().then((DataSnapshot snapshot){
-                      area = snapshot.value["Text"];
+                      area = snapshot.value["town"];
                     });
                   });
                 },
@@ -596,8 +612,8 @@ class _EditProfileState extends State<EditProfile> {
             child: Text(
               'Change Profile Picture',
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.blue
+                  fontSize: 20,
+                  color: Colors.blue
               ),
             ),
           ),
@@ -607,15 +623,15 @@ class _EditProfileState extends State<EditProfile> {
             margin: EdgeInsets.only(top: 530, left: 40),
             child: FloatingActionButton(
 
-                //when this button is pressed
-                //it calls the above alertDialog class
-                //to show the prompt to take a picture from
-                //camera or from gallery
-                onPressed: () {
-                  _alertDialog(context);
-                },
-                tooltip: 'Pick Image',
-                child: Icon(Icons.add_a_photo),
+              //when this button is pressed
+              //it calls the above alertDialog class
+              //to show the prompt to take a picture from
+              //camera or from gallery
+              onPressed: () {
+                _alertDialog(context);
+              },
+              tooltip: 'Pick Image',
+              child: Icon(Icons.add_a_photo),
             ),
           ),
         ],
