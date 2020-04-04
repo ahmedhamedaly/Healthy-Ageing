@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:Healthy_Ageing/utilities/constants.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:Healthy_Ageing/utilities/constants.dart';
 
 
 class DogOwnerScreen extends StatefulWidget {
@@ -30,6 +32,8 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
 
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final databaseReference = FirebaseDatabase.instance.reference();
+
 
   Widget _buildName() {
     return TextFormField(
@@ -221,6 +225,21 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
       print(e);
     });
   }
+  void createRecord() async {
+
+    databaseReference.child("My data dog owner").set({
+      'dogname':_dogname,
+      'dog nickname': _dognickname,
+      'breed': _breed,
+      'dog age': _dogage,
+      'bio': _bio,
+      'availability': _availablility,
+      'position': _currentPosition.toString(),
+      'challenge': _challenge,
+       'owner': _owner,
+       'occupation': _occupation,
+
+    });}
 
   @override
   Widget build(BuildContext context) {
@@ -317,6 +336,7 @@ class DogOwnerScreenState extends State<DogOwnerScreen> {
                               }
                               _formKey1.currentState.save();
                               _getCurrentLocation();
+                              createRecord();
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                     return Photos();
