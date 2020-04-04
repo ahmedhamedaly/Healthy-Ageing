@@ -9,6 +9,7 @@ import 'package:Healthy_Ageing/models/user.dart';
 import 'home/home.dart';
 
 bool registered = true;
+String uid;
 
 class Wrapper extends StatelessWidget {
   @override

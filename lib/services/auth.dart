@@ -1,4 +1,5 @@
 import 'package:Healthy_Ageing/models/user.dart';
+import 'package:Healthy_Ageing/screens/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -58,7 +59,7 @@ class AuthService {
   Future signIn(AuthCredential authCreds) async {
 
     AuthResult result = await _auth.signInWithCredential(authCreds);
-    
+    uid = result.user.uid;
   }
 
   signInWithOTP(smsCode, verId){

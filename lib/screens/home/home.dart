@@ -164,45 +164,35 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    // TODO RUN THIS BEFORE BUILD
+    setupProfiles();
+  }
+
+  Future setupProfiles() async {
     var db = FirebaseDatabase.instance.reference().child("users");
     db.once().then((DataSnapshot snapshot){
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key,values) {
         // add profiles from db to list
-        dbProfiles.add(new Profile(bio: values['bio'], distance: values['age'].toString(), name: values['firstName'], photos: [
-          "assets/photo_1.jpg",
-          "assets/photo_2.jpg",
-          "assets/photo_3.jpg",
-          "assets/photo_4.jpg",
-        ],));
-        //print(values["age"].toString());
-      });
+        if (values['isPetOwner']) {
+          dbProfiles.add(new Profile(bio: values['bio'], distance: values['age'].toString(), name: values['firstName'], photos: [
+            "assets/photo_1.jpg",
+            "assets/photo_2.jpg",
+            "assets/photo_3.jpg",
+            "assets/photo_4.jpg",
+            "assets/photo_3.jpg",
+            "assets/photo_2.jpg",
+            "assets/photo_1.jpg",
+          ],));
+          //print(values["age"].toString());
+        }});
+
     });
   }
 
-//  Future<void> setupProfiles() async {
-//    var db = FirebaseDatabase.instance.reference().child("users");
-//    db.once().then((DataSnapshot snapshot){
-//      Map<dynamic, dynamic> values = snapshot.value;
-//      values.forEach((key,values) {
-//        // add profiles from db to list
-//        dbProfiles.add(new Profile(bio: values['bio'], distance: values['age'].toString(), name: values['firstName'], photos: [
-//          "assets/photo_1.jpg",
-//          "assets/photo_2.jpg",
-//          "assets/photo_3.jpg",
-//          "assets/photo_4.jpg",
-//        ],));
-//        //print(values["age"].toString());
-//      });
-//    });
-//    return null;
-//  }
-
   @override
   Widget build(BuildContext context) {
-    print(dbProfiles.length);
     if (dbProfiles.length > 0) {
       return Scaffold(
         backgroundColor: Colors.white,

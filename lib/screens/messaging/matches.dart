@@ -13,7 +13,7 @@ class Matches extends StatefulWidget {
   State<StatefulWidget> createState() => new MatchesState();
 }
 
-class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
+class MatchesState extends State<Matches> with SingleTickerProviderStateMixin {
   String uID = "1";
   List<Match> matches;
   List<Match> dismatches;
@@ -21,43 +21,46 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
 
   @override
   void initState() {
-
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     getMatchData();
     getPendingData();
-
   }
 
   Future getMatchData() async {
-    DatabaseReference reff = FirebaseDatabase.instance.reference().child("users").child(uID);
+    DatabaseReference reff = FirebaseDatabase.instance.reference().child(
+        "users").child(uID);
 
     List<Match> matched = new List();
     List<String> matchID = new List();
     await reff.child("matched").once().then((DataSnapshot dataSnapShot) {
       Map<dynamic, dynamic> idMap = dataSnapShot.value;
       idMap.forEach((key, value) {
-          matchID.add(value.toString());
+        matchID.add(value.toString());
       });
     });
     matchID.forEach((element) async {
-      DatabaseReference id_reff = FirebaseDatabase.instance.reference().child("users").child(element);
-      await id_reff.once().then((DataSnapshot dataSnapShot){
+      DatabaseReference id_reff = FirebaseDatabase.instance.reference().child(
+          "users").child(element);
+      await id_reff.once().then((DataSnapshot dataSnapShot) {
         String fname = dataSnapShot.value["firstName"].toString();
         String lname = dataSnapShot.value["surname"].toString();
         String pname = dataSnapShot.value["petName"].toString();
         String propic = dataSnapShot.value["profilePic"].toString();
-        matched.add(new Match(id: element, OwnerName: fname + " " + lname, PetName: pname, profile_photo: propic, matched_back: true));
+        matched.add(new Match(id: element,
+            OwnerName: fname + " " + lname,
+            PetName: pname,
+            profile_photo: propic,
+            matched_back: true));
       });
     });
 
     matches = matched;
-
-
-}
+  }
 
   Future getPendingData() async {
-    DatabaseReference reff = FirebaseDatabase.instance.reference().child("users").child(uID);
+    DatabaseReference reff = FirebaseDatabase.instance.reference().child(
+        "users").child(uID);
 
     List<Match> pending = new List();
     List<String> pendingID = new List();
@@ -68,13 +71,18 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
       });
     });
     pendingID.forEach((element) async {
-      DatabaseReference id_reff = FirebaseDatabase.instance.reference().child("users").child(element);
-      await id_reff.once().then((DataSnapshot dataSnapShot){
+      DatabaseReference id_reff = FirebaseDatabase.instance.reference().child(
+          "users").child(element);
+      await id_reff.once().then((DataSnapshot dataSnapShot) {
         String fname = dataSnapShot.value["firstName"].toString();
         String lname = dataSnapShot.value["surname"].toString();
         String pname = dataSnapShot.value["petName"].toString();
         String propic = dataSnapShot.value["profilePic"].toString();
-        pending.add(new Match(id: element, OwnerName: fname + " " + lname, PetName: pname, profile_photo: propic, matched_back: false));
+        pending.add(new Match(id: element,
+            OwnerName: fname + " " + lname,
+            PetName: pname,
+            profile_photo: propic,
+            matched_back: false));
       });
     });
 
@@ -82,47 +90,46 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
   }
 
 
-
-
-
   @override
-  Widget build(BuildContext context){
-    Column _buildMatches(List<Match> matchList){
+  Widget build(BuildContext context) {
+    Column _buildMatches(List<Match> matchList) {
       return Column(
         children: <Widget>[
           Expanded(
-            child: ListView.builder(
-              itemCount: matchList.length,
-              itemBuilder: (BuildContext context, int index){
-                return
-                  Card(
-                    color: Colors.white,
-                    child: ListTile(
+              child: ListView.builder(
+                itemCount: matchList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return
+                    Card(
+                        color: Colors.white,
+                        child: ListTile(
 
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(matchList[index].profile_photo),
-                      ),
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  matchList[index].profile_photo),
+                            ),
 
-                      title: Text(matchList[index].OwnerName),
-                      subtitle: Text(matchList[index].PetName),
-                      trailing: (matchList[index].matched_back == true) ?
-                      Icon(Icons.message) :Icon(Icons.hourglass_empty) ,
-                      selected: true,
-                      onTap: (){
-                      if  (matchList[index].matched_back == true) {
-                       Navigator.of(context).push(
-                           MaterialPageRoute<Null>(builder: (
-                               BuildContext context) {
-                             //TODO: have each of these stored, and input them
-                             return new Messaging("Walter", "123", "5");
-                           })
-                       );
-                      }
-                    }
-                    )
-                  );
-              },
-            )
+                            title: Text(matchList[index].OwnerName),
+                            subtitle: Text(matchList[index].PetName),
+                            trailing: (matchList[index].matched_back == true) ?
+                            Icon(Icons.message) : Icon(Icons.hourglass_empty),
+                            selected: true,
+                            onTap: () {
+                              if (matchList[index].matched_back == true) {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute<Null>(
+                                        builder: (BuildContext context) {
+                                          //TODO: have each of these stored, and input them
+                                          return new Messaging(
+                                              "Walter", "123", "5");
+                                        })
+                                );
+                              }
+                            }
+                        )
+                    );
+                },
+              )
           )
         ],
       );
@@ -130,40 +137,44 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
 
     const double _imageSize = 20.0;
     return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.brown[100],
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child:AppBar(
-            backgroundColor: Colors.blueAccent[400],
-            elevation: 0.0,
+        length: 2,
+        child: Scaffold(
+          backgroundColor: Colors.brown[100],
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100.0),
+            child: AppBar(
+              backgroundColor: Colors.blueAccent[400],
+              elevation: 0.0,
 
-            title: Text("Your Matches"),
-            leading: IconButton(
-              icon: Icon(Icons.navigate_before, color: Colors.black,),
-              onPressed: (){
-                setState(() {
-                  infoPress = false;
-                });
-                Navigator.pop(context);
-              },
+              title: Text("Your Matches"),
+              leading: IconButton(
+                icon: Icon(Icons.navigate_before, color: Colors.black,),
+                onPressed: () {
+                  setState(() {
+                    infoPress = false;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              bottom: TabBar(
+                  labelColor: Theme
+                      .of(context)
+                      .indicatorColor,
+                  controller: _tabController,
+                  tabs: [
+                    Tab(icon: Icon(
+                        Icons.favorite, size: 30, color: Colors.white)),
+                    Tab(icon: Icon(
+                        Icons.favorite_border, size: 30, color: Colors.white)),
+                  ]
+              ),
             ),
-           bottom: TabBar(
-             labelColor: Theme.of(context).indicatorColor,
-             controller: _tabController,
-             tabs: [
-               Tab(icon: Icon(Icons.favorite, size:  30, color: Colors.white)),
-               Tab(icon: Icon(Icons.favorite_border, size: 30, color: Colors.white)),
-             ]
-           ),
           ),
-        ),
-       body:
+          body:
           //Container(
-         //color: Colors.white,
-         //child:
-        TabBarView(
+          //color: Colors.white,
+          //child:
+          TabBarView(
 
             controller: _tabController,
             children: [
@@ -171,18 +182,18 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin{
               _buildMatches(dismatches.toList()),
             ],
           ),
-       //),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.update),
-            onPressed: (){
-              setState(() {
-                getMatchData();
-                getPendingData();
-              });
+          //),
+          floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.update),
+              onPressed: () {
+                setState(() {
+                  getMatchData();
+                  getPendingData();
+                });
+              }
+          ),
 
-            }
-        ),
-
-      )
+        )
     );
   }
+}
