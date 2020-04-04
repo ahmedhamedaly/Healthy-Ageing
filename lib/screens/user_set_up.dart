@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Healthy_Ageing/screens/user_or_dog_owner.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:Healthy_Ageing/utilities/constants.dart';
+
+
+final databaseReference = FirebaseDatabase.instance.reference();
 
 
 
@@ -18,9 +21,10 @@ class UserScreen extends StatefulWidget {
 
 class UserScreenState extends State<UserScreen> {
 
+
   String _name;
   String _surname;
-  int _age;
+  String _age;
   String _area;
   String _bio;
   String _availablility;
@@ -78,7 +82,7 @@ class UserScreenState extends State<UserScreen> {
         return null;
       },
       onSaved: (String value) {
-        _surname = value;
+        _age = value;
       },
     );
   }
@@ -224,8 +228,23 @@ class UserScreenState extends State<UserScreen> {
       print(e);
     });
   }
+  void createRecord() async {
+
+    databaseReference.child("My data").set({
+
+      'age': _age,
+      'bio': _bio,
+      'availability': _availablility,
+      'position': _currentPosition.toString(),
+      'experience': _experience,
+      'pulling': _pullingDog,
+      'comfort': _comfort,
+
+  });}
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: _scaffoldKey,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -313,6 +332,7 @@ class UserScreenState extends State<UserScreen> {
                               _formKey.currentState.save();
                               _getCurrentLocation();
                               print(_currentPosition);
+                              createRecord();
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context){
                                     return Photos();
