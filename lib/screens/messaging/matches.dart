@@ -119,9 +119,9 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin {
                                 Navigator.of(context).push(
                                     MaterialPageRoute<Null>(
                                         builder: (BuildContext context) {
-                                          //TODO: have each of these stored, and input them
+                                          //TODO: Generate a chat Id for each match.
                                           return new Messaging(
-                                              "Walter", "123", "5");
+                                              matchList[index].OwnerName, "123");
                                         })
                                 );
                               }
