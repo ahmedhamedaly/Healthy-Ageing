@@ -76,6 +76,9 @@ class PhotosState extends State<Photos> {
   String _path = null;
   String _path1 = null;
   String _path2 = null;
+  StorageReference firebaseStorageRef;
+  StorageReference firebaseStorageRef1;
+  StorageReference firebaseStorageRef2;
   void createRecord() async {
 
     databaseReference.child("profile pictures").set({
@@ -87,30 +90,41 @@ class PhotosState extends State<Photos> {
   Future uploadPic1(BuildContext context) async{
     if(file1!=null) {
       String fileName = basename(file1.path);
-      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+      firebaseStorageRef = FirebaseStorage.instance.ref()
           .child(fileName);
       final StorageUploadTask uploadTask = firebaseStorageRef.putFile(file1);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      databaseReference.child("profile picture1").set({
+        'picture': await firebaseStorageRef.getPath(),
+      });
+    }
     }
 
-  }
+
   Future uploadPic2(BuildContext context) async{
     if(file2!=null) {
       String fileName = basename(file2.path);
-      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+      firebaseStorageRef1 = FirebaseStorage.instance.ref()
           .child(fileName);
-      final StorageUploadTask uploadTask = firebaseStorageRef.putFile(file2);
+      final StorageUploadTask uploadTask = firebaseStorageRef1.putFile(file2);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      databaseReference.child("profile picture2").set({
+        'picture': await firebaseStorageRef1.getPath(),
+      });
+
     }
 
   }
   Future uploadPic3(BuildContext context) async{
     if(file3!=null) {
       String fileName = basename(file3.path);
-      StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+      firebaseStorageRef2 = FirebaseStorage.instance.ref()
           .child(fileName);
-      final StorageUploadTask uploadTask = firebaseStorageRef.putFile(file3);
+      final StorageUploadTask uploadTask = firebaseStorageRef2.putFile(file3);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      databaseReference.child("profile picture3").set({
+        'picture': await firebaseStorageRef2.getPath(),
+      });
     }
 
   }
@@ -191,7 +205,6 @@ class PhotosState extends State<Photos> {
                     uploadPic1(context);
                     uploadPic2(context);
                     uploadPic3(context);
-
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context){
                           return Home();
