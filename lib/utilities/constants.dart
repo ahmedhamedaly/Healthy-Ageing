@@ -24,10 +24,10 @@ class CustomAppColours {
 
 
   //Used in messaging; may move/remove later
-  static Color themeColor = Color.fromRGBO(150, 150, 150, 1);
-  static Color primaryColor = Color.fromRGBO(0, 0, 0, 1);
-  static Color greyColor2 = Color.fromRGBO(100, 100, 100, 1);
-  static Color greyColor = Color.fromRGBO(50, 50, 50, 1);
+  static Color themeColor = Color.fromRGBO(255, 0, 0, 1);
+  static Color primaryColor = Color.fromRGBO(0, 0, 0, 1); //Text colour
+  static Color greyColor2 = Color.fromRGBO(150, 200, 255, 1); //Sent message colour
+  static Color greyColor = Color.fromRGBO(0, 0, 255, 1); //Recieved Message colour
 
   static Color kBoxColor = Color(0xFF6CA8F1);
 }

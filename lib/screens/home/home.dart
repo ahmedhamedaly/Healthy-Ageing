@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Healthy_Ageing/screens/messaging/matches.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,18 +8,18 @@ import 'package:Healthy_Ageing/services/swipe/matches.dart';
 import 'package:Healthy_Ageing/services/auth.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
 import 'package:firebase_database/firebase_database.dart';
-
-
+import 'package:flutter/scheduler.dart';
 
 import '../../services/swipe/cards.dart';
 import '../profile_settings/dog_lover_profile.dart';
 import '../profile_settings/dog_owner_profile.dart';
 
-
+List<Profile> dbProfiles = [];
 final MatchEngine matchEngine = new MatchEngine(
-    matches: demoProfiles.map((Profile profile) {
+    matches: dbProfiles.map((Profile profile) {
       return Match(profile: profile);
-    }).toList());
+    }).toList()
+);
 
 
 class Home extends StatefulWidget {
@@ -143,9 +145,7 @@ class _HomeState extends State<Home> {
                 icon: Icons.clear,
                 iconColor: Colors.red,
                 onPressed: () {
-                  setState(() {
-                    index+=1;
-                  });
+
                   matchEngine.currentMatch.nope();
                 },
               ),
@@ -153,9 +153,7 @@ class _HomeState extends State<Home> {
                 icon: Icons.check,
                 iconColor: Colors.green,
                 onPressed: () {
-                  setState(() {
-                    index += 1;
-                  });
+
                   matchEngine.currentMatch.like();
                 },
               ),
@@ -165,18 +163,46 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // TODO RUN THIS BEFORE BUILD
+    setupProfiles();
+  }
+
+  Future setupProfiles() async {
+    var db = FirebaseDatabase.instance.reference().child("users");
+    db.once().then((DataSnapshot snapshot){
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key,values) {
+        // add profiles from db to list
+        if (values['isPetOwner']) {
+          dbProfiles.add(new Profile(bio: values['bio'], distance: values['age'].toString(), name: values['firstName'], photos: [
+            "assets/photo_1.jpg",
+            "assets/photo_2.jpg",
+            "assets/photo_3.jpg",
+            "assets/photo_4.jpg",
+            "assets/photo_3.jpg",
+            "assets/photo_2.jpg",
+            "assets/photo_1.jpg",
+          ],));
+          //print(values["age"].toString());
+        }});
+
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: infoPress == true ? null : new CardStack(
-        matchEngine: matchEngine,
-      ),
-      bottomNavigationBar: _buildBottomBar(),
-
-    );
+    if (dbProfiles.length > 0) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(),
+        body: infoPress == true ? null : new CardStack(
+          matchEngine: matchEngine,
+        ),
+        bottomNavigationBar: _buildBottomBar(),
+      );
+    } else return Scaffold();
   }
 }
 

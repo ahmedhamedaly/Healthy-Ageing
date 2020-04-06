@@ -59,6 +59,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FirebaseStorage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Flutter.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -119,6 +124,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>file_picker.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>firebase_auth.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -135,6 +145,11 @@
 			<false/>
 		</dict>
 		<key>firebase_database.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>firebase_storage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

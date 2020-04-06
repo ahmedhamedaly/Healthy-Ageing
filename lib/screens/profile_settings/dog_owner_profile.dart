@@ -21,8 +21,7 @@ String bio = "";
 String area = "";
 String uID = "";
 
-final profileRef = FirebaseDatabase.instance.reference();
-final locationRef = FirebaseDatabase.instance.reference().child('Another userID').child('Location');
+final profileRef = FirebaseDatabase.instance.reference().child('users');
 
 class OwnerProfile extends StatefulWidget {
   OwnerProfile({Key key, this.title}) : super(key: key);
@@ -31,13 +30,15 @@ class OwnerProfile extends StatefulWidget {
 
   Future initProfile(String id) async {
     uID = id;
-    await profileRef.once().then((DataSnapshot snapshot) {
-      ownerName = snapshot.value["Owner First Name"].toString();
-      ownerSecondName = snapshot.value["Owner Second Name"].toString();
-      dogName = snapshot.value["Dog Name"].toString();
-      bio = snapshot.value["Bio"].toString();
+    var infoRef = profileRef.child(uID.toString());
+    var locationRef = infoRef.child("location");
+    await infoRef.once().then((DataSnapshot snapshot) {
+      ownerName = snapshot.value["firstName"].toString();
+      ownerSecondName = snapshot.value["surname"].toString();
+      dogName = snapshot.value["petName"].toString();
+      bio = snapshot.value["bio"].toString();
       locationRef.once().then((DataSnapshot snap) {
-        area = snap.value['Text'].toString();
+        area = snap.value['town'].toString();
       });
     });
   }
@@ -57,9 +58,9 @@ class _OwnerProfileState extends State<OwnerProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
           icon: Icon(Icons.navigate_before, color: Colors.black,),
           onPressed: (){
             Navigator.pop(context, pressed);
@@ -319,6 +320,9 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
 
+  var infoRef = profileRef.child(uID.toString());
+  var locationRef = profileRef.child(uID.toString()).child("location");
+
   //alert dialog box that pops up when
   //user wants to upload a new profile picture
   //it asks whether the user wants to take a picture
@@ -419,12 +423,12 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: ownerName
                 ),
                 onSubmitted: (String value) async {
-                  profileRef.update({
-                    'Owner FirstName' : value
+                  infoRef.update({
+                    'firstName' : value
                   });
                   setState(() {
-                    profileRef.once().then((DataSnapshot snapshot) {
-                      ownerName = snapshot.value["Owner First Name"];
+                    infoRef.once().then((DataSnapshot snapshot) {
+                      ownerName = snapshot.value["firstName"];
                     });
                   });
                 },
@@ -456,12 +460,12 @@ class _EditProfileState extends State<EditProfile> {
                   hintText: ownerSecondName
               ),
               onSubmitted: (String value) async {
-                profileRef.update({
-                  'Owner Second Name' : value
+                infoRef.update({
+                  'surname' : value
                 });
                 setState(() {
-                  profileRef.once().then((DataSnapshot snapshot) {
-                    ownerSecondName = snapshot.value["Owner Second Name"];
+                  infoRef.once().then((DataSnapshot snapshot) {
+                    ownerSecondName = snapshot.value["surname"];
                   });
                 });
               },
@@ -493,12 +497,12 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: dogName
                 ),
                 onSubmitted: (String value) {
-                  profileRef.update({
-                    'Dog Name' : value
+                  infoRef.update({
+                    'petName' : value
                   });
                   setState(() {
-                    profileRef.once().then((DataSnapshot snapshot) {
-                      dogName = snapshot.value["Dog Name"];
+                    infoRef.once().then((DataSnapshot snapshot) {
+                      dogName = snapshot.value["petName"];
                     });
                   });
                 },
@@ -529,12 +533,12 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: bio
                 ),
                 onSubmitted: (String value) {
-                  profileRef.update({
-                    'Bio' : value
+                  infoRef.update({
+                    'bio' : value
                   });
                   setState(() {
-                    profileRef.once().then((DataSnapshot snapshot) {
-                      bio = snapshot.value["Bio"];
+                    infoRef.once().then((DataSnapshot snapshot) {
+                      bio = snapshot.value["bio"];
                     });
                   });
                 },
@@ -566,11 +570,11 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 onSubmitted: (String value) {
                   locationRef.update({
-                    'Text' : value
+                    'town' : value
                   });
                   setState(() {
                     locationRef.once().then((DataSnapshot snapshot) {
-                      area = snapshot.value["Text"];
+                      area = snapshot.value["town"];
                     });
                   });
                 },

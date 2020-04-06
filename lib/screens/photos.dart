@@ -3,6 +3,12 @@ import 'package:Healthy_Ageing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:Healthy_Ageing/utilities/constants.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
+final databaseReference = FirebaseDatabase.instance.reference();
 
 class Photos extends StatefulWidget {
   @override
@@ -12,9 +18,16 @@ class Photos extends StatefulWidget {
 }
 
 class PhotosState extends State<Photos> {
+  File file1 = null;
+  File file2 = null;
+  File file3 = null;
+  String url =null;
+  String url1 = null;
+  String url2 = null;
   void _showPhotoLibrary() async {
     final file = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      file1 = file;
       _path = file.path;
     });
   }
@@ -22,6 +35,7 @@ class PhotosState extends State<Photos> {
   void _showPhotoLibrary1() async {
     final file = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+      file2= file;
       _path1 = file.path;
     });
   }
@@ -29,6 +43,7 @@ class PhotosState extends State<Photos> {
   void _showPhotoLibrary2() async {
     final file = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
+       file3 = file;
       _path2 = file.path;
     });
   }
@@ -64,6 +79,65 @@ class PhotosState extends State<Photos> {
   String _path = null;
   String _path1 = null;
   String _path2 = null;
+  StorageReference firebaseStorageRef;
+  StorageReference firebaseStorageRef1;
+  StorageReference firebaseStorageRef2;
+  void createRecord() async {
+
+    databaseReference.child("profile pictures").set({
+      'picture1': _path,
+      'picture2': _path1,
+      'picture3': _path2,
+    });}
+
+  Future uploadPic1(BuildContext context) async{
+    if(file1!=null) {
+      String fileName = basename(file1.path);
+      firebaseStorageRef = FirebaseStorage.instance.ref()
+          .child(fileName);
+      final StorageUploadTask uploadTask = firebaseStorageRef.putFile(file1);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url = await taskSnapshot.ref.getDownloadURL();
+      databaseReference.child("profile picture1").set({
+        'picture': await firebaseStorageRef.getPath(),
+        'url': url.toString(),
+
+      });
+    }
+    }
+
+
+  Future uploadPic2(BuildContext context) async{
+    if(file2!=null) {
+      String fileName = basename(file2.path);
+      firebaseStorageRef1 = FirebaseStorage.instance.ref()
+          .child(fileName);
+      final StorageUploadTask uploadTask = firebaseStorageRef1.putFile(file2);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url1 = await taskSnapshot.ref.getDownloadURL();
+      databaseReference.child("profile picture2").set({
+        'picture': await firebaseStorageRef1.getPath(),
+        'url': url1.toString(),
+      });
+
+    }
+
+  }
+  Future uploadPic3(BuildContext context) async{
+    if(file3!=null) {
+      String fileName = basename(file3.path);
+      firebaseStorageRef2 = FirebaseStorage.instance.ref()
+          .child(fileName);
+      final StorageUploadTask uploadTask = firebaseStorageRef2.putFile(file3);
+      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url2 = await taskSnapshot.ref.getDownloadURL();
+      databaseReference.child("profile picture3").set({
+        'picture': await firebaseStorageRef2.getPath(),
+        'url': url2.toString(),
+      });
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +211,10 @@ class PhotosState extends State<Photos> {
                     'Next',
                     style: TextStyle(color: Colors.blue),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    uploadPic1(context);
+                    uploadPic2(context);
+                    uploadPic3(context);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context){
                           return Home();

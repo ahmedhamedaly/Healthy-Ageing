@@ -9,6 +9,7 @@ import 'package:Healthy_Ageing/models/user.dart';
 import 'home/home.dart';
 
 bool registered = true;
+String uid;
 
 class Wrapper extends StatelessWidget {
   @override
@@ -20,9 +21,10 @@ class Wrapper extends StatelessWidget {
       return Authenticate();
     }
 
-    return Authenticate();
+    //return Authenticate();
     //if (registered) return DogOwnerOrUserScreen();
-    //return Home();
+    //return Messaging("Walter", "123");
+    return Home();
     //return FormScreen();
     //return new DogOwnerOrUserScreen();
     //return DogOwnerOrUserScreen();
