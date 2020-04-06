@@ -21,6 +21,9 @@ class PhotosState extends State<Photos> {
   File file1 = null;
   File file2 = null;
   File file3 = null;
+  String url =null;
+  String url1 = null;
+  String url2 = null;
   void _showPhotoLibrary() async {
     final file = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -94,8 +97,11 @@ class PhotosState extends State<Photos> {
           .child(fileName);
       final StorageUploadTask uploadTask = firebaseStorageRef.putFile(file1);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url = await taskSnapshot.ref.getDownloadURL();
       databaseReference.child("profile picture1").set({
         'picture': await firebaseStorageRef.getPath(),
+        'url': url.toString(),
+
       });
     }
     }
@@ -108,8 +114,10 @@ class PhotosState extends State<Photos> {
           .child(fileName);
       final StorageUploadTask uploadTask = firebaseStorageRef1.putFile(file2);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url1 = await taskSnapshot.ref.getDownloadURL();
       databaseReference.child("profile picture2").set({
         'picture': await firebaseStorageRef1.getPath(),
+        'url': url1.toString(),
       });
 
     }
@@ -122,8 +130,10 @@ class PhotosState extends State<Photos> {
           .child(fileName);
       final StorageUploadTask uploadTask = firebaseStorageRef2.putFile(file3);
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+      url2 = await taskSnapshot.ref.getDownloadURL();
       databaseReference.child("profile picture3").set({
         'picture': await firebaseStorageRef2.getPath(),
+        'url': url2.toString(),
       });
     }
 
