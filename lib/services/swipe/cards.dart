@@ -5,7 +5,7 @@ import 'package:fluttery_dart2/layout.dart';
 import 'package:Healthy_Ageing/models/profiles.dart';
 import 'package:Healthy_Ageing/services/swipe/photos.dart';
 import 'package:Healthy_Ageing/services/swipe/matches.dart';
-import 'package:Healthy_Ageing/screens/messaging/display_profile_info.dart';
+import 'package:Healthy_Ageing/screens/display_profile_info.dart';
 
 class CardStack extends StatefulWidget {
   final MatchEngine matchEngine;
