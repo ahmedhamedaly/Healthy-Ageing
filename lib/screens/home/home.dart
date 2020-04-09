@@ -171,7 +171,7 @@ class _HomeState extends State<Home> {
 
   Future setupProfiles() async {
     var db = FirebaseDatabase.instance.reference().child("users");
-    db.once().then((DataSnapshot snapshot){
+    await db.once().then((DataSnapshot snapshot){
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key,values) {
         // add profiles from db to list

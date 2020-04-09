@@ -54,11 +54,14 @@ class display_profile_state extends State<display_profile_screen>{
 
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: PhotoView(
-                            imageProvider: AssetImage('assets/mananddog.jpg'),
-                            minScale: PhotoViewComputedScale.contained * 0.99,
-                            maxScale:PhotoViewComputedScale.contained * 1.5,
-                          ),
+                          child:
+                          Image(image: AssetImage('assests/mananddog.jpg'), fit: BoxFit.cover),
+
+                          //PhotoView(
+                          //  imageProvider: AssetImage('assets/mananddog.jpg'),
+                         //   minScale: PhotoViewComputedScale.contained * 0.99,
+                          //  maxScale:PhotoViewComputedScale.contained * 1.5,
+                          //),
                         )
                       ),
                       Container(
