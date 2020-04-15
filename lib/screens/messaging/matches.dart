@@ -141,7 +141,7 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin {
     return FutureBuilder(
       future: getMatchData(),
       builder: (context, projectSnap) {
-        if (projectSnap.connectionState == ConnectionState.none &&
+        if (projectSnap.connectionState != ConnectionState.done ||
             projectSnap.hasData == null) {
           //print('project snapshot data is: ${projectSnap.data}');
           return Container();
@@ -155,7 +155,7 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin {
     return FutureBuilder(
       future: getPendingData(),
       builder: (context, projectSnap) {
-        if (projectSnap.connectionState == ConnectionState.none &&
+        if (projectSnap.connectionState != ConnectionState.done ||
             projectSnap.hasData == null) {
           //print('project snapshot data is: ${projectSnap.data}');
           return Container();
@@ -180,12 +180,12 @@ class MatchesState extends State<Matches> with SingleTickerProviderStateMixin {
 
               title: Text("Your Matches"),
               leading: IconButton(
-                icon: Icon(Icons.navigate_before, color: Colors.black,),
+                icon: Icon(Icons.navigate_before, color: Colors.white,),
                 onPressed: () {
                   setState(() {
                     infoPress = false;
                   });
-                  Navigator.pop(context);
+                  Navigator.pop(context, false);
                 },
               ),
               bottom: TabBar(

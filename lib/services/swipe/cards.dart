@@ -482,7 +482,7 @@ class _ProfileCardState extends State<ProfileCard> {
                 size: 40.0,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder:(context)=> display_profile_screen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> display_profile_screen()));
               },
             ),
           ],

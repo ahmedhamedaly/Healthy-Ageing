@@ -61,7 +61,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.navigate_before, color: Colors.black,),
+          icon: Icon(Icons.navigate_before, color: Colors.white,),
           onPressed: (){
             Navigator.pop(context, pressed);
           },

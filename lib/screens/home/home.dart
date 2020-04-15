@@ -15,11 +15,7 @@ import '../profile_settings/dog_lover_profile.dart';
 import '../profile_settings/dog_owner_profile.dart';
 
 List<Profile> dbProfiles = [];
-final MatchEngine matchEngine = new MatchEngine(
-    matches: dbProfiles.map((Profile profile) {
-      return Match(profile: profile);
-    }).toList()
-);
+MatchEngine matchEngine;
 
 
 class Home extends StatefulWidget {
@@ -55,6 +51,14 @@ class _HomeState extends State<Home> {
     bool a = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => petOwner == "true" ? dogOwnerProfile : dogLoverProfile)
+    );
+    updateInfoPress(a);
+  }
+
+  void moveToMatchPage() async {
+    bool a = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Matches()),
     );
     updateInfoPress(a);
   }
@@ -104,11 +108,12 @@ class _HomeState extends State<Home> {
           }
 
       ),
-      title: new Icon(
-        Icons.dashboard,
-        size: 30.0,
-        color: Colors.teal,
-      ),
+      title:Text("Tender",
+  style: TextStyle(
+    color: Colors.white,
+    fontSize: 20.0,
+  ),
+),
       actions: <Widget>[
         new IconButton(
           icon: new Icon(
@@ -121,10 +126,7 @@ class _HomeState extends State<Home> {
               infoPress = true;
             });
             //_auth.signOut();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Matches()),
-            );
+            moveToMatchPage();
           },
         ),
       ],
@@ -146,7 +148,7 @@ class _HomeState extends State<Home> {
                 iconColor: Colors.red,
                 onPressed: () {
 
-                  matchEngine.currentMatch.nope();
+                  //matchEngine.currentMatch.nope();
                 },
               ),
               new RoundIconButton.large(
@@ -154,7 +156,7 @@ class _HomeState extends State<Home> {
                 iconColor: Colors.green,
                 onPressed: () {
 
-                  matchEngine.currentMatch.like();
+                  //matchEngine.currentMatch.like();
                 },
               ),
             ],
@@ -176,6 +178,7 @@ class _HomeState extends State<Home> {
       values.forEach((key,values) {
         // add profiles from db to list
         if (values['isPetOwner']) {
+          print("here");
           dbProfiles.add(new Profile(bio: values['bio'], distance: values['age'].toString(), name: values['firstName'], photos: [
             "assets/photo_1.jpg",
             "assets/photo_2.jpg",
@@ -188,28 +191,53 @@ class _HomeState extends State<Home> {
           //print(values["age"].toString());
         }});
 
+
+
+
     });
+
+
+  }
+
+   Widget ProfileFutureBuilder() {
+    return FutureBuilder(
+      future: setupProfiles(),
+      builder: (context, projectSnap) {
+        if (projectSnap.connectionState !=
+                 ConnectionState.done || projectSnap.hasData == null) {
+          //print('project snapshot data is: ${projectSnap.data}');
+          return Container();
+        }
+
+    matchEngine = new MatchEngine(
+    matches: dbProfiles.map((Profile profile) {
+      return Match(profile: profile);
+    }).toList()
+);
+
+        return new CardStack(
+          matchEngine: matchEngine,
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (dbProfiles.length > 0) {
+    //if (dbProfiles.length > 0) {
+     // print(dbProfiles.length);
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: _buildAppBar(),
-        body: infoPress == true ? null : new CardStack(
-          matchEngine: matchEngine,
-        ),
+        body: infoPress == true ? null : ProfileFutureBuilder(),
         bottomNavigationBar: _buildBottomBar(),
       );
-    } else return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: infoPress == true ? null : new CardStack(
-        matchEngine: matchEngine,
-      ),
-      bottomNavigationBar: _buildBottomBar(),
-    );
+    //} else return Scaffold(
+    //  backgroundColor: Colors.white,
+    //  appBar: _buildAppBar(),
+    //  body: Container(),
+    //  bottomNavigationBar: _buildBottomBar(),
+    //);
   }
 }
 

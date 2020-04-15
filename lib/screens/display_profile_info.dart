@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
+import 'package:Healthy_Ageing/screens/home/home.dart';
+
 
 String dog_name = "Oscar";
 String person_first_name = "Jake";
@@ -34,7 +35,7 @@ class display_profile_state extends State<display_profile_screen>{
             backgroundColor: Colors.blueAccent,
             leading: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> Home())),
             ),
             elevation: 0,
           ),
@@ -55,7 +56,7 @@ class display_profile_state extends State<display_profile_screen>{
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child:
-                          Image(image: AssetImage('assests/mananddog.jpg'), fit: BoxFit.cover),
+                          Image(image: AssetImage('assets/photo_1.jpg'), fit: BoxFit.cover),
 
                           //PhotoView(
                           //  imageProvider: AssetImage('assets/mananddog.jpg'),
