@@ -202,7 +202,14 @@ class _HomeState extends State<Home> {
         ),
         bottomNavigationBar: _buildBottomBar(),
       );
-    } else return Scaffold();
+    } else return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: _buildAppBar(),
+      body: infoPress == true ? null : new CardStack(
+        matchEngine: matchEngine,
+      ),
+      bottomNavigationBar: _buildBottomBar(),
+    );
   }
 }
 
