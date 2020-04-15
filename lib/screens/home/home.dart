@@ -148,7 +148,7 @@ class _HomeState extends State<Home> {
                 iconColor: Colors.red,
                 onPressed: () {
 
-                  //matchEngine.currentMatch.nope();
+                  matchEngine.currentMatch.nope();
                 },
               ),
               new RoundIconButton.large(
@@ -156,7 +156,7 @@ class _HomeState extends State<Home> {
                 iconColor: Colors.green,
                 onPressed: () {
 
-                  //matchEngine.currentMatch.like();
+                  matchEngine.currentMatch.like();
                 },
               ),
             ],
