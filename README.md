@@ -36,17 +36,17 @@ Connect your device and run the project (while you're in the directory).
 $ flutter run
 ```
 
-## Prototype
+### Prototype
 
-### Discover Dog Owners Around You
+#### Discover Dog Owners Around You
 
 ![Swiping](demos/swiping.gif)
 
-### View and Customise Your Profile
+#### View and Customise Your Profile
 
 ![Profile](demos/profile.gif)
 
-### Chat with Dog Owners You Have Matched With
+#### Chat with Dog Owners You Have Matched With
 
 ![Chat](demos/chat.gif)
 
