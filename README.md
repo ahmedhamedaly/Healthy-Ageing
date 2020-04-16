@@ -4,16 +4,16 @@ Connecting dog-lovers and dog-owners to enable the healthy ageing amongst
 the older generation in Ireland.
 
 
-###Discover Dog Owners Around You
+##Discover Dog Owners Around You
 
 ![Swiping](demos/swiping.gif)
 
 
-###View and Customise Your Profile
+##View and Customise Your Profile
 
 ![Profile](demos/profile.gif)
 
-###Chat with Dog Owners You Have Matched With
+##Chat with Dog Owners You Have Matched With
 
 ![Chat](demos/chat.gif)
 
