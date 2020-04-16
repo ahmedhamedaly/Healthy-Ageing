@@ -4,20 +4,6 @@ Connecting dog-lovers and dog-owners to enable the healthy ageing amongst
 the older generation in Ireland.
 
 
-## Discover Dog Owners Around You
-
-![Swiping](demos/swiping.gif)
-
-
-## View and Customise Your Profile
-
-![Profile](demos/profile.gif)
-
-## Chat with Dog Owners You Have Matched With
-
-![Chat](demos/chat.gif)
-
-
 ## Getting Started
 
 ### Prerequisites
@@ -49,6 +35,20 @@ Connect your device and run the project (while you're in the directory).
 ```
 $ flutter run
 ```
+
+## Prototype
+
+### Discover Dog Owners Around You
+
+![Swiping](demos/swiping.gif)
+
+### View and Customise Your Profile
+
+![Profile](demos/profile.gif)
+
+### Chat with Dog Owners You Have Matched With
+
+![Chat](demos/chat.gif)
 
 
 ### Authors
